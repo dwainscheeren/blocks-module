@@ -22,6 +22,20 @@ class BlockFormBuilder extends FormBuilder
     protected $type = null;
 
     /**
+     * The form fields.
+     *
+     * @var array
+     */
+    protected $fields = [
+        'name',
+        'slug' => [
+            'disabled' => 'edit'
+        ],
+        'description',
+        'group'
+    ];
+
+    /**
      * The fields to skip.
      *
      * @var array
