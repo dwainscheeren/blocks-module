@@ -29,11 +29,11 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
     ];
 
     /**
-     * The bindings array.
+     * The singleton bindings array.
      *
      * @var array
      */
-    protected $bindings = [
+    protected $singletons = [
         'Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface' => 'Anomaly\BlocksModule\Block\BlockRepository',
         'Anomaly\BlocksModule\Group\Contract\GroupRepositoryInterface' => 'Anomaly\BlocksModule\Group\GroupRepository'
     ];
