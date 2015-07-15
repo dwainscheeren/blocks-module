@@ -18,7 +18,7 @@ class BlocksModule extends Module
      *
      * @var string
      */
-    protected $icon = 'cubes';
+    protected $icon = 'magic';
 
     /**
      * The module sections.
