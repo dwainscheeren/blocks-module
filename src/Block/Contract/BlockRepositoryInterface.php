@@ -13,4 +13,11 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 interface BlockRepositoryInterface extends EntryRepositoryInterface
 {
 
+    /**
+     * Find a block by it's slug.
+     *
+     * @param $slug
+     * @return null|BlockInterface
+     */
+    public function findBySlug($slug);
 }

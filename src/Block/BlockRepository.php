@@ -1,5 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Block;
 
+use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
 
@@ -29,5 +30,16 @@ class BlockRepository extends EntryRepository implements BlockRepositoryInterfac
     public function __construct(BlockModel $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * Find a block by it's slug.
+     *
+     * @param $slug
+     * @return null|BlockInterface
+     */
+    public function findBySlug($slug)
+    {
+        return $this->model->where('slug', $slug)->first();
     }
 }

@@ -11,9 +11,9 @@
             {% for block in blocks %}
                 <li>
                     <a href="{{ url_to('admin/blocks/create?type=' ~ block.namespace) }}">
-                        <strong>{{ block.name }}</strong>
+                        <strong>{{ trans(block.title) }}</strong>
                         <br>
-                        <small>{{ block.description }}</small>
+                        <small>{{ trans(block.description) }}</small>
                     </a>
                 </li>
             {% endfor %}

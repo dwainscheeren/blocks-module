@@ -14,6 +14,17 @@ class BlockTableBuilder extends TableBuilder
 {
 
     /**
+     * The table filters.
+     *
+     * @var array
+     */
+    protected $filters = [
+        'name',
+        'group',
+        'type'
+    ];
+
+    /**
      * The table columns.
      *
      * @var array
@@ -21,8 +32,9 @@ class BlockTableBuilder extends TableBuilder
     protected $columns = [
         'name',
         'slug',
+        'entry.group.name',
         'description',
-        'entry.type.name'
+        'entry.type.title'
     ];
 
     /**

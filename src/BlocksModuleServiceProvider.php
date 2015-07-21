@@ -14,7 +14,16 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
 {
 
     /**
-     * The routes array.
+     * The addon plugins.
+     *
+     * @var array
+     */
+    protected $plugins = [
+        'Anomaly\BlocksModule\BlocksModulePlugin'
+    ];
+
+    /**
+     * The addon routes.
      *
      * @var array
      */
@@ -29,7 +38,7 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
     ];
 
     /**
-     * The singleton bindings array.
+     * The singleton bindings.
      *
      * @var array
      */

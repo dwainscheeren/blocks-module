@@ -50,8 +50,8 @@ class BlockFormBuilder extends FormBuilder
      */
     public function onSaving()
     {
-        $entry = $this->getFormEntry();
         $type  = $this->getType();
+        $entry = $this->getFormEntry();
 
         $entry->type = $type->getNamespace();
     }
