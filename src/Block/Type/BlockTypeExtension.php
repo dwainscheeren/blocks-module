@@ -1,4 +1,4 @@
-<?php namespace Anomaly\BlocksModule\Type;
+<?php namespace Anomaly\BlocksModule\Block\Type;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;

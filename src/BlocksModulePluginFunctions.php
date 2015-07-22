@@ -1,6 +1,7 @@
 <?php namespace Anomaly\BlocksModule;
 
 use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
+use Anomaly\BlocksModule\Block\Type\BlockTypeExtension;
 use Anomaly\BlocksModule\Group\Contract\GroupRepositoryInterface;
 use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationRepositoryInterface;
 
@@ -60,8 +61,9 @@ class BlocksModulePluginFunctions
             return null;
         }
 
+        /* @var BlockTypeExtension $type */
         $type = $block->getType();
 
-        return view($type->getNamespace('block'))->render();
+        return view($type->getNamespace('block'), compact('block'))->render();
     }
 }

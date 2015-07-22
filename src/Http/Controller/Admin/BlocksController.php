@@ -4,7 +4,8 @@ use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\BlocksModule\Block\Form\BlockFormBuilder;
 use Anomaly\BlocksModule\Block\Table\BlockTableBuilder;
-use Anomaly\BlocksModule\Type\Form\BlockTypeFormBuilder;
+use Anomaly\BlocksModule\Block\Type\BlockTypeExtension;
+use Anomaly\BlocksModule\Block\Type\Form\BlockTypeFormBuilder;
 use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
@@ -40,7 +41,7 @@ class BlocksController extends AdminController
     public function choose(ExtensionCollection $extensions)
     {
         return view(
-            'module::admin/blocks/choose',
+            'module::ajax/choose_block_type',
             [
                 'blocks' => $extensions->search('anomaly.module.blocks::block.*')->enabled()
             ]
@@ -50,22 +51,21 @@ class BlocksController extends AdminController
     /**
      * Return the form to create a new block.
      *
-     * @param BlockFormBuilder         $block
-     * @param BlockTypeFormBuilder     $form
-     * @param ExtensionCollection      $blocks
-     * @param ConfigurationFormBuilder $configuration
+     * @param BlockFormBuilder     $block
+     * @param BlockTypeFormBuilder $form
+     * @param ExtensionCollection  $blocks
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function create(
         BlockFormBuilder $block,
         BlockTypeFormBuilder $form,
-        ExtensionCollection $blocks,
-        ConfigurationFormBuilder $configuration
+        ExtensionCollection $blocks
     ) {
+        /* @var BlockTypeExtension $type */
         $type = $blocks->get($_GET['type']);
 
+        $form->addForm('type', $type->getFormBuilder());
         $form->addForm('block', $block->setType($type));
-        $form->addForm('configuration', $configuration->setEntry($type->getNamespace()));
 
         return $form->render();
     }

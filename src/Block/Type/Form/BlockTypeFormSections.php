@@ -1,4 +1,4 @@
-<?php namespace Anomaly\BlocksModule\Type\Form;
+<?php namespace Anomaly\BlocksModule\Block\Type\Form;
 
 /**
  * Class BlockTypeFormSections

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Block\Form;
 
-use Anomaly\BlocksModule\Type\BlockTypeExtension;
+use Anomaly\BlocksModule\Block\Type\BlockTypeExtension;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -54,7 +54,6 @@ class BlockFormBuilder extends FormBuilder
         $block = $this->getFormEntry();
 
         $block->type = $type->getNamespace();
-        $block->entry = $type->getEntry();
     }
 
     /**

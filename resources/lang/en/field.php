@@ -15,7 +15,8 @@ return [
     ],
     'group'       => [
         'name'         => 'Group',
-        'instructions' => 'Choose an optional group to add this block to.'
+        'instructions' => 'Choose an optional group to add this block to.',
+        'placeholder'  => 'Choose a group...'
     ],
     'type'        => [
         'name' => 'Type'

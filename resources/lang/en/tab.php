@@ -1,6 +1,8 @@
 <?php
 
 return [
-    'block'         => 'Block',
-    'configuration' => 'Configuration'
+    'block'   => 'Block',
+    'content' => 'Content',
+    'css'     => 'CSS',
+    'js'      => 'JS'
 ];
