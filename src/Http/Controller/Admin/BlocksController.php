@@ -39,7 +39,12 @@ class BlocksController extends AdminController
      */
     public function choose(ExtensionCollection $extensions)
     {
-        return view('module::admin/blocks/choose', ['blocks' => $extensions->search('anomaly.module.blocks::block.*')]);
+        return view(
+            'module::admin/blocks/choose',
+            [
+                'blocks' => $extensions->search('anomaly.module.blocks::block.*')->enabled()
+            ]
+        );
     }
 
     /**

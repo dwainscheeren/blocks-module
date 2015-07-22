@@ -18,20 +18,20 @@ class BlockTypeFormSections
      */
     public function handle(BlockTypeFormBuilder $builder)
     {
-        $block         = $builder->getChildForm('block');
-        $configuration = $builder->getChildForm('configuration');
+        $block = $builder->getChildForm('block');
+        $type  = $builder->getChildForm('type');
 
         $builder->setSections(
             [
                 [
                     'tabs' => [
-                        'block'         => [
+                        'block'   => [
                             'title'  => 'anomaly.module.blocks::tab.block',
                             'fields' => $block->getFormFieldNames()
                         ],
-                        'configuration' => [
-                            'title'  => 'anomaly.module.blocks::tab.configuration',
-                            'fields' => $configuration->getFormFieldNames()
+                        'content' => [
+                            'title'  => 'anomaly.module.blocks::tab.content',
+                            'fields' => $type->getFormFieldNames()
                         ]
                     ]
                 ]
