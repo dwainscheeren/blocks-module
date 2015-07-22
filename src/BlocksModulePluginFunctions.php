@@ -62,6 +62,6 @@ class BlocksModulePluginFunctions
 
         $type = $block->getType();
 
-        return view($type->getNamespace('block'));
+        return view($type->getNamespace('block'))->render();
     }
 }
