@@ -3,9 +3,9 @@
     "type": "streams-addon",
     "description": "Manage small sections of self-contained blocks of logic.",
     "keywords": [
-        "streams field type",
+        "streams module",
         "streams addon",
-        "field type"
+        "module"
     ],
     "homepage": "http://anomaly.is/",
     "version": "1.0.0",

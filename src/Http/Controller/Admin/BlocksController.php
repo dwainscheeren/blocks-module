@@ -84,19 +84,14 @@ class BlocksController extends AdminController
         BlockFormBuilder $block,
         BlockTypeFormBuilder $form,
         BlockRepositoryInterface $blocks,
-        ConfigurationFormBuilder $configuration,
         $id
     ) {
         /* @var BlockInterface $entry */
         $entry = $blocks->find($id);
+        $type  = $entry->getType();
 
-        $type = $entry->getType();
-
+        $form->addForm('type', $type->getFormBuilder()->setEntry($entry->getEntryId()));
         $form->addForm('block', $block->setEntry($id)->setType($type));
-        $form->addForm(
-            'configuration',
-            $configuration->setEntry($type->getNamespace())->setScope($entry->getSlug())
-        );
 
         return $form->render();
     }

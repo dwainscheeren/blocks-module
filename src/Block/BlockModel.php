@@ -1,7 +1,8 @@
 <?php namespace Anomaly\BlocksModule\Block;
 
 use Anomaly\BlocksModule\Block\Contract\BlockInterface;
-use Anomaly\BlocksModule\Type\BlockTypeExtension;
+use Anomaly\BlocksModule\Block\Type\BlockTypeExtension;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\Blocks\BlocksBlocksEntryModel;
 
 /**
@@ -33,5 +34,25 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Get the related entry.
+     *
+     * @return null|EntryInterface
+     */
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    /**
+     * Get the related entry ID.
+     *
+     * @return null|int
+     */
+    public function getEntryId()
+    {
+        return $this->entry_id;
     }
 }
