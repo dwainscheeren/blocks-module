@@ -39,7 +39,19 @@ class AnomalyModuleBlocks_1_0_0_CreateBlocksFields extends Migration
             'config' => [
                 'related' => 'Anomaly\BlocksModule\Group\GroupModel'
             ]
-        ]
+        ],
+        'css'         => [
+            'type'   => 'anomaly.field_type.editor',
+            'config' => [
+                'mode' => 'css'
+            ]
+        ],
+        'js'          => [
+            'type'   => 'anomaly.field_type.editor',
+            'config' => [
+                'mode' => 'javascript'
+            ]
+        ],
     ];
 
 }

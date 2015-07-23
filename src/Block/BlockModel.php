@@ -17,6 +17,13 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
 {
 
     /**
+     * The rendered block content.
+     *
+     * @var null
+     */
+    protected $content = null;
+
+    /**
      * Get the slug.
      *
      * @return string
@@ -54,5 +61,28 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     public function getEntryId()
     {
         return $this->entry_id;
+    }
+
+    /**
+     * Get the content.
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set the content.
+     *
+     * @param $content
+     * @return $this
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
     }
 }

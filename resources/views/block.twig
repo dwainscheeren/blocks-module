@@ -1,0 +1,6 @@
+{{ asset_add('styles.css', block.css.path) }}
+{{ asset_add('scripts.js', block.js.path) }}
+
+<div class="{{ block.type.slug }} {{ block.slug }}">
+    {{ block.content|raw }}
+</div>

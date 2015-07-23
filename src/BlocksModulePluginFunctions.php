@@ -64,6 +64,8 @@ class BlocksModulePluginFunctions
         /* @var BlockTypeExtension $type */
         $type = $block->getType();
 
-        return view($type->getNamespace('block'), compact('block'))->render();
+        $block->setContent(view($type->getNamespace('block'), compact('block'))->render());
+
+        return view('anomaly.module.blocks::block', compact('block'))->render();
     }
 }

@@ -44,7 +44,9 @@ class AnomalyModuleBlocks_1_0_0_CreateBlocksStream extends Migration
             'required' => true
         ],
         'description',
-        'group'
+        'group',
+        'css',
+        'js'
     ];
 
 }

@@ -32,16 +32,9 @@ class BlockFormBuilder extends FormBuilder
             'disabled' => 'edit'
         ],
         'description',
-        'group'
-    ];
-
-    /**
-     * The fields to skip.
-     *
-     * @var array
-     */
-    protected $skips = [
-        'type'
+        'group',
+        'css',
+        'js'
     ];
 
     /**

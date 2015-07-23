@@ -41,4 +41,20 @@ interface BlockInterface
      * @return null|int
      */
     public function getEntryId();
+
+
+    /**
+     * Get the content.
+     *
+     * @return string
+     */
+    public function getContent();
+
+    /**
+     * Set the content.
+     *
+     * @param $content
+     * @return $this
+     */
+    public function setContent($content);
 }

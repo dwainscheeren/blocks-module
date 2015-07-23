@@ -20,5 +20,13 @@ return [
     ],
     'type'        => [
         'name' => 'Type'
+    ],
+    'css'         => [
+        'name'         => 'CSS',
+        'instructions' => 'This CSS will be added to the <strong>styles.css</strong> asset collection.'
+    ],
+    'js'          => [
+        'name'         => 'JS',
+        'instructions' => 'This script will be added to the <strong>scripts.js</strong> asset collection.'
     ]
 ];
