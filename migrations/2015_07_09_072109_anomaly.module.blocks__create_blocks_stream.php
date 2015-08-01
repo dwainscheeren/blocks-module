@@ -3,13 +3,13 @@
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
 /**
- * Class AnomalyModuleBlocks_1_0_0_CreateGroupsStream
+ * Class AnomalyModuleBlocksCreateBlocksStream
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  */
-class AnomalyModuleBlocks_1_0_0_CreateGroupsStream extends Migration
+class AnomalyModuleBlocksCreateBlocksStream extends Migration
 {
 
     /**
@@ -18,7 +18,7 @@ class AnomalyModuleBlocks_1_0_0_CreateGroupsStream extends Migration
      * @var array
      */
     protected $stream = [
-        'slug'         => 'groups',
+        'slug'         => 'blocks',
         'title_column' => 'name',
         'locked'       => true
     ];
@@ -29,15 +29,24 @@ class AnomalyModuleBlocks_1_0_0_CreateGroupsStream extends Migration
      * @var array
      */
     protected $assignments = [
-        'name' => [
+        'name'  => [
             'required' => true,
             'unique'   => true
         ],
-        'slug' => [
+        'slug'  => [
             'required' => true,
             'unique'   => true
         ],
-        'description'
+        'type'  => [
+            'required' => true
+        ],
+        'entry' => [
+            'required' => true
+        ],
+        'description',
+        'group',
+        'css',
+        'js'
     ];
 
 }
