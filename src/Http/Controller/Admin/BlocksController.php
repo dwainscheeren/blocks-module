@@ -4,9 +4,9 @@ use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\BlocksModule\Block\Form\BlockFormBuilder;
 use Anomaly\BlocksModule\Block\Table\BlockTableBuilder;
-use Anomaly\BlocksModule\Block\Type\BlockTypeExtension;
 use Anomaly\BlocksModule\Block\Type\Form\BlockTypeFormBuilder;
 use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 
@@ -61,10 +61,15 @@ class BlocksController extends AdminController
         BlockTypeFormBuilder $form,
         ExtensionCollection $blocks
     ) {
-        /* @var BlockTypeExtension $type */
+        /* @var Extension $type */
         $type = $blocks->get($_GET['type']);
 
-        $form->addForm('type', $type->getFormBuilder());
+        $builder   = explode('\\', get_class($type));
+        $extension = array_pop($builder);
+
+        $builder = app(implode('\\', $builder) . '\Form\\' . substr($extension, 0, -9) . 'FormBuilder');
+
+        $form->addForm('type', $builder);
         $form->addForm('block', $block->setType($type));
 
         return $form->render();
@@ -90,7 +95,12 @@ class BlocksController extends AdminController
         $entry = $blocks->find($id);
         $type  = $entry->getType();
 
-        $form->addForm('type', $type->getFormBuilder()->setEntry($entry->getEntryId()));
+        $builder   = explode('\\', get_class($type));
+        $extension = array_pop($builder);
+
+        $builder = app(implode('\\', $builder) . '\Form\\' . substr($extension, 0, -9) . 'FormBuilder');
+
+        $form->addForm('type', $builder->setEntry($entry->getEntryId()));
         $form->addForm('block', $block->setEntry($id)->setType($type));
 
         return $form->render();

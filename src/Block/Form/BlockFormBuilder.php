@@ -1,6 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Block\Form;
 
-use Anomaly\BlocksModule\Block\Type\BlockTypeExtension;
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -17,7 +17,7 @@ class BlockFormBuilder extends FormBuilder
     /**
      * The block type.
      *
-     * @var null|BlockTypeExtension
+     * @var null|Extension
      */
     protected $type = null;
 
@@ -52,7 +52,7 @@ class BlockFormBuilder extends FormBuilder
     /**
      * Get the block type.
      *
-     * @return BlockTypeExtension|null
+     * @return Extension|null
      */
     public function getType()
     {
@@ -62,10 +62,10 @@ class BlockFormBuilder extends FormBuilder
     /**
      * Set the block type.
      *
-     * @param BlockTypeExtension $type
+     * @param Extension $type
      * @return $this
      */
-    public function setType(BlockTypeExtension $type)
+    public function setType(Extension $type)
     {
         $this->type = $type;
 

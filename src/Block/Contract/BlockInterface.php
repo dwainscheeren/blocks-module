@@ -1,6 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Block\Contract;
 
-use Anomaly\BlocksModule\Block\Type\BlockTypeExtension;
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
@@ -24,7 +24,7 @@ interface BlockInterface
     /**
      * Get the type.
      *
-     * @return BlockTypeExtension
+     * @return Extension
      */
     public function getType();
 
