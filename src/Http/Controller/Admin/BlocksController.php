@@ -103,10 +103,16 @@ class BlocksController extends AdminController
 
         $builder   = explode('\\', get_class($type));
         $extension = array_pop($builder);
+        $builder   = implode('\\', $builder);
+        $builder   = $builder . '\Form\\' . substr($extension, 0, -9) . 'FormBuilder';
 
-        $builder = app(implode('\\', $builder) . '\Form\\' . substr($extension, 0, -9) . 'FormBuilder');
+        if (class_exists($builder)) {
 
-        $form->addForm('type', $builder->setEntry($entry->getEntryId()));
+            $builder = app($builder);
+
+            $form->addForm('type', $builder->setEntry($entry->getEntryId()));
+        }
+
         $form->addForm('block', $block->setEntry($id)->setType($type));
 
         return $form->render();
