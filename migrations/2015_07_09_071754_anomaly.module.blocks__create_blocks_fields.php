@@ -18,6 +18,7 @@ class AnomalyModuleBlocksCreateBlocksFields extends Migration
      * @var array
      */
     protected $fields = [
+        'title'       => 'anomaly.field_type.text',
         'name'        => 'anomaly.field_type.text',
         'description' => 'anomaly.field_type.textarea',
         'entry'       => 'anomaly.field_type.polymorphic',

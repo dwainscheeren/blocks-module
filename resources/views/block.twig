@@ -2,5 +2,11 @@
 {{ asset_add('scripts.js', block.js.path) }}
 
 <div class="{{ block.type.slug }} {{ block.slug }}">
-    {{ block.content|raw }}
+
+    <h3>{{ page.title }}</h3>
+
+    <div class="inner">
+        {{ block.content|raw }}
+    </div>
+
 </div>

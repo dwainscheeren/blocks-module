@@ -31,7 +31,7 @@ class BlockTypeFormSections
                         ],
                         'content' => [
                             'title'  => 'anomaly.module.blocks::tab.content',
-                            'fields' => $type->getFormFieldNames()
+                            'fields' => $type ? $type->getFormFieldNames() : null
                         ],
                         'css'     => [
                             'title'  => 'anomaly.module.blocks::tab.css',
