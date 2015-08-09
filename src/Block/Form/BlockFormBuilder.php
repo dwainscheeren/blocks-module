@@ -28,6 +28,7 @@ class BlockFormBuilder extends FormBuilder
      */
     protected $fields = [
         'name',
+        'title',
         'slug' => [
             'disabled' => 'edit'
         ],

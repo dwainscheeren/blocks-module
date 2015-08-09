@@ -1,11 +1,13 @@
 {{ asset_add('styles.css', block.css.path) }}
 {{ asset_add('scripts.js', block.js.path) }}
 
-<div class="{{ block.type.slug }} {{ block.slug }}">
+<div class="{{ str_slug(block.type.value.slug, '-') }}-type {{ block.slug }}-block">
 
-    <h3>{{ page.title }}</h3>
+    {% if block.title %}
+        <h3>{{ block.title }}</h3>
+    {% endif %}
 
-    <div class="inner">
+    <div class="block-content">
         {{ block.content|raw }}
     </div>
 

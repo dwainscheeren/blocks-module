@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'title'       => [
+        'name'         => 'Title',
+        'instructions' => 'If a title is provided it will be displayed at the top of the widget.'
+    ],
     'name'        => [
         'name'         => 'Name',
         'instructions' => 'Use a short easily identifiable name.'

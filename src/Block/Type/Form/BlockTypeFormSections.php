@@ -27,7 +27,10 @@ class BlockTypeFormSections
                     'tabs' => [
                         'block'   => [
                             'title'  => 'anomaly.module.blocks::tab.block',
-                            'fields' => array_diff($block->getFormFieldNames(), ['block_css', 'block_js'])
+                            'fields' => array_diff(
+                                $block->getFormFieldNames(),
+                                ['block_css', 'block_js', 'block_title', 'block_group']
+                            )
                         ],
                         'content' => [
                             'title'  => 'anomaly.module.blocks::tab.content',
@@ -43,6 +46,13 @@ class BlockTypeFormSections
                             'title'  => 'anomaly.module.blocks::tab.js',
                             'fields' => [
                                 'block_js'
+                            ]
+                        ],
+                        'options' => [
+                            'title'  => 'anomaly.module.blocks::tab.options',
+                            'fields' => [
+                                'block_title',
+                                'block_group'
                             ]
                         ]
                     ]

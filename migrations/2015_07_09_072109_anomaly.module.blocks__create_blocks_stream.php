@@ -45,6 +45,7 @@ class AnomalyModuleBlocksCreateBlocksStream extends Migration
         ],
         'description',
         'group',
+        'title',
         'css',
         'js'
     ];
