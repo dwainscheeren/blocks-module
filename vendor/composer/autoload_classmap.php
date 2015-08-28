@@ -6,4 +6,24 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Anomaly\\BlocksModule\\Block\\BlockModel' => $baseDir . '/src/Block/BlockModel.php',
+    'Anomaly\\BlocksModule\\Block\\BlockRepository' => $baseDir . '/src/Block/BlockRepository.php',
+    'Anomaly\\BlocksModule\\Block\\Contract\\BlockInterface' => $baseDir . '/src/Block/Contract/BlockInterface.php',
+    'Anomaly\\BlocksModule\\Block\\Contract\\BlockRepositoryInterface' => $baseDir . '/src/Block/Contract/BlockRepositoryInterface.php',
+    'Anomaly\\BlocksModule\\Block\\Form\\BlockFormBuilder' => $baseDir . '/src/Block/Form/BlockFormBuilder.php',
+    'Anomaly\\BlocksModule\\Block\\Table\\BlockTableBuilder' => $baseDir . '/src/Block/Table/BlockTableBuilder.php',
+    'Anomaly\\BlocksModule\\Block\\Type\\Form\\BlockTypeFormBuilder' => $baseDir . '/src/Block/Type/Form/BlockTypeFormBuilder.php',
+    'Anomaly\\BlocksModule\\Block\\Type\\Form\\BlockTypeFormSections' => $baseDir . '/src/Block/Type/Form/BlockTypeFormSections.php',
+    'Anomaly\\BlocksModule\\BlocksModule' => $baseDir . '/src/BlocksModule.php',
+    'Anomaly\\BlocksModule\\BlocksModulePlugin' => $baseDir . '/src/BlocksModulePlugin.php',
+    'Anomaly\\BlocksModule\\BlocksModulePluginFunctions' => $baseDir . '/src/BlocksModulePluginFunctions.php',
+    'Anomaly\\BlocksModule\\BlocksModuleServiceProvider' => $baseDir . '/src/BlocksModuleServiceProvider.php',
+    'Anomaly\\BlocksModule\\Group\\Contract\\GroupInterface' => $baseDir . '/src/Group/Contract/GroupInterface.php',
+    'Anomaly\\BlocksModule\\Group\\Contract\\GroupRepositoryInterface' => $baseDir . '/src/Group/Contract/GroupRepositoryInterface.php',
+    'Anomaly\\BlocksModule\\Group\\Form\\GroupFormBuilder' => $baseDir . '/src/Group/Form/GroupFormBuilder.php',
+    'Anomaly\\BlocksModule\\Group\\GroupModel' => $baseDir . '/src/Group/GroupModel.php',
+    'Anomaly\\BlocksModule\\Group\\GroupRepository' => $baseDir . '/src/Group/GroupRepository.php',
+    'Anomaly\\BlocksModule\\Group\\Table\\GroupTableBuilder' => $baseDir . '/src/Group/Table/GroupTableBuilder.php',
+    'Anomaly\\BlocksModule\\Http\\Controller\\Admin\\BlocksController' => $baseDir . '/src/Http/Controller/Admin/BlocksController.php',
+    'Anomaly\\BlocksModule\\Http\\Controller\\Admin\\GroupsController' => $baseDir . '/src/Http/Controller/Admin/GroupsController.php',
 );
