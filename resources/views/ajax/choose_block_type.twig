@@ -7,10 +7,10 @@
 
 <div class="modal-body">
     {% if not blocks.isEmpty() %}
-        <ul class="nav nav-stacked">
+        <ul class="nav nav-pills nav-stacked">
             {% for block in blocks %}
-                <li>
-                    <a href="{{ url_to('admin/blocks/create?type=' ~ block.namespace) }}">
+                <li class="nav-item">
+                    <a href="{{ url_to('admin/blocks/create?type=' ~ block.namespace) }}" class="nav-link">
                         <strong>{{ trans(block.title) }}</strong>
                         <br>
                         <small>{{ trans(block.description) }}</small>
