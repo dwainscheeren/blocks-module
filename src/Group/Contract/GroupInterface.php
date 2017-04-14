@@ -1,5 +1,7 @@
 <?php namespace Anomaly\BlocksModule\Group\Contract;
 
+use Anomaly\BlocksModule\Block\BlockCollection;
+
 /**
  * Interface GroupInterface
  *
@@ -11,4 +13,10 @@
 interface GroupInterface
 {
 
+    /**
+     * Get the related blocks.
+     *
+     * @return BlockCollection
+     */
+    public function getBlocks();
 }

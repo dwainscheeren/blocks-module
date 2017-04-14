@@ -11,4 +11,11 @@
 interface GroupRepositoryInterface
 {
 
+    /**
+     * Find a group by it's slug.
+     *
+     * @param $slug
+     * @return GroupInterface|null
+     */
+    public function findBySlug($slug);
 }

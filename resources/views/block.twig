@@ -1,6 +1,3 @@
-{{ asset_add('styles.css', block.css.path) }}
-{{ asset_add('scripts.js', block.js.path) }}
-
 <div class="{{ str_slug(block.type.value.slug, '-') }}-type {{ block.slug }}-block">
 
     {% if block.title %}

@@ -23,40 +23,27 @@ class BlockTypeFormSections
 
         $builder->setSections(
             [
-                [
+                'block'   => [
                     'tabs' => [
-                        'block'   => [
-                            'title'  => 'anomaly.module.blocks::tab.block',
+                        'general' => [
+                            'title'  => 'anomaly.module.blocks::form.general',
                             'fields' => array_diff(
                                 $block->getFormFieldNames(),
-                                ['block_css', 'block_js', 'block_title', 'block_group']
-                            )
-                        ],
-                        'content' => [
-                            'title'  => 'anomaly.module.blocks::tab.content',
-                            'fields' => $type ? $type->getFormFieldNames() : null
-                        ],
-                        'css'     => [
-                            'title'  => 'anomaly.module.blocks::tab.css',
-                            'fields' => [
-                                'block_css'
-                            ]
-                        ],
-                        'js'      => [
-                            'title'  => 'anomaly.module.blocks::tab.js',
-                            'fields' => [
-                                'block_js'
-                            ]
+                                ['block_title', 'block_group']
+                            ),
                         ],
                         'options' => [
-                            'title'  => 'anomaly.module.blocks::tab.options',
+                            'title'  => 'anomaly.module.blocks::form.options',
                             'fields' => [
                                 'block_title',
-                                'block_group'
-                            ]
-                        ]
-                    ]
-                ]
+                                'block_group',
+                            ],
+                        ],
+                    ],
+                ],
+                'content' => [
+                    'fields' => $type ? $type->getFormFieldSlugs('type_') : null,
+                ],
             ]
         );
     }

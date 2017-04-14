@@ -1,5 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Block;
 
+use Anomaly\BlocksModule\Block\Command\RenderBlock;
 use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -17,11 +18,14 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
 {
 
     /**
-     * The rendered block content.
+     * Return the rendered block.
      *
-     * @var null
+     * @return string
      */
-    protected $content = null;
+    public function render()
+    {
+        return $this->dispatch(new RenderBlock($this));
+    }
 
     /**
      * Get the slug.

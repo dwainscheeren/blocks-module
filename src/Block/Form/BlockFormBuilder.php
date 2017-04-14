@@ -30,12 +30,10 @@ class BlockFormBuilder extends FormBuilder
         'name',
         'title',
         'slug' => [
-            'disabled' => 'edit'
+            'disabled' => 'edit',
         ],
         'description',
         'group',
-        'css',
-        'js'
     ];
 
     /**

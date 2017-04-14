@@ -15,6 +15,13 @@ interface BlockInterface
 {
 
     /**
+     * Return the rendered block.
+     *
+     * @return string
+     */
+    public function render();
+    
+    /**
      * Get the slug.
      *
      * @return string

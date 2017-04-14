@@ -1,0 +1,8 @@
+<input type="hidden" name="{{ form.options.blocks_prefix }}[{{ form.options.blocks_instance }}][instance]"
+       value="{{ form.options.blocks_instance }}">
+<input type="hidden" name="{{ form.options.blocks_prefix }}[{{ form.options.blocks_instance }}][entry]"
+       value="{{ form.entry.id }}">
+<input type="hidden" name="{{ form.options.blocks_prefix }}[{{ form.options.blocks_instance }}][stream]"
+       value="{{ form.entry.getStream().id }}">
+<input type="hidden" name="{{ form.options.blocks_prefix }}[{{ form.options.blocks_instance }}][field]"
+       value="{{ form.options.blocks_field }}">

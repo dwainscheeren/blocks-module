@@ -41,9 +41,9 @@ class BlocksController extends AdminController
     public function choose(ExtensionCollection $extensions)
     {
         return view(
-            'module::ajax/choose_block_type',
+            'module::admin/blocks/choose_block_type',
             [
-                'blocks' => $extensions->search('anomaly.module.blocks::block.*')->enabled()
+                'blocks' => $extensions->search('anomaly.module.blocks::block.*')->enabled(),
             ]
         );
     }
@@ -62,7 +62,7 @@ class BlocksController extends AdminController
         ExtensionCollection $blocks
     ) {
         /* @var Extension $type */
-        $type = $blocks->get($_GET['type']);
+        $type = $blocks->get($this->request->get('type'));
 
         $builder   = explode('\\', get_class($type));
         $extension = array_pop($builder);

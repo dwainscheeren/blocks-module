@@ -1,5 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Group;
 
+use Anomaly\BlocksModule\Group\Contract\GroupInterface;
 use Anomaly\BlocksModule\Group\Contract\GroupRepositoryInterface;
 
 /**
@@ -28,5 +29,16 @@ class GroupRepository implements GroupRepositoryInterface
     public function __construct(GroupModel $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * Find a group by it's slug.
+     *
+     * @param $slug
+     * @return GroupInterface|null
+     */
+    public function findBySlug($slug)
+    {
+        return $this->model->where('slug', $slug)->first();
     }
 }
