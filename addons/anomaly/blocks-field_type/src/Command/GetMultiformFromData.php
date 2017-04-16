@@ -1,7 +1,6 @@
 <?php namespace Anomaly\BlocksFieldType\Command;
 
 use Anomaly\BlocksFieldType\BlocksFieldType;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
@@ -44,8 +43,11 @@ class GetMultiformFromData
      * @param MultipleFormBuilder       $forms
      * @return MultipleFormBuilder|null
      */
-    public function handle(StreamRepositoryInterface $streams, FieldRepositoryInterface $fields, MultipleFormBuilder $forms)
-    {
+    public function handle(
+        StreamRepositoryInterface $streams,
+        FieldRepositoryInterface $fields,
+        MultipleFormBuilder $forms
+    ) {
         /* @var EntryCollection $value */
         if (!$value = $this->fieldType->getValue()) {
             return null;
@@ -68,7 +70,7 @@ class GetMultiformFromData
 
             $type->setPrefix($this->fieldType->getPrefix());
 
-            $form = $type->form($field, $stream, $item['instance']);
+            $form = $type->form($field, $stream, $item['type'], $item['instance']);
 
             if ($item['entry']) {
                 $form->setEntry($item['entry']);

@@ -28,41 +28,4 @@ class BlocksFieldTypeServiceProvider extends AddonServiceProvider
         'blocks-field_type/choose/{field}'        => 'Anomaly\BlocksFieldType\Http\Controller\BlocksController@choose',
         'blocks-field_type/form/{field}/{stream}' => 'Anomaly\BlocksFieldType\Http\Controller\BlocksController@form',
     ];
-
-    /**
-     * Register the addon.
-     *
-     * @param AddonIntegrator $integrator
-     * @param AddonCollection $addons
-     * @param EntryModel      $model
-     */
-    public function register(
-        AddonIntegrator $integrator,
-        AddonCollection $addons,
-        EntryModel $model
-    ) {
-        $addon = $integrator->register(
-            realpath(__DIR__ . '/../addons/anomaly/blockss-module/'),
-            'anomaly.module.blockss',
-            true,
-            true
-        );
-
-        $addons->push($addon);
-
-        $model->bind(
-            'new_blocks_field_type_form_builder',
-            function (Container $container) {
-
-                /* @var EntryInterface $this */
-                $builder = $this->getBoundModelNamespace() . '\\Support\\BlocksFieldType\\FormBuilder';
-
-                if (class_exists($builder)) {
-                    return $container->make($builder);
-                }
-
-                return $container->make(FormBuilder::class);
-            }
-        );
-    }
 }

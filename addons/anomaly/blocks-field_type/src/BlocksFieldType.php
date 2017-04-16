@@ -1,9 +1,8 @@
 <?php namespace Anomaly\BlocksFieldType;
 
+use Anomaly\BlocksFieldType\Block\BlocksModel;
 use Anomaly\BlocksFieldType\Command\GetMultiformFromPost;
 use Anomaly\BlocksFieldType\Command\GetMultiformFromValue;
-use Anomaly\BlocksFieldType\Blocks\BlocksModel;
-use Anomaly\BlocksFieldType\Blocks\BlocksRelation;
 use Anomaly\BlocksFieldType\Validation\ValidateBlocks;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -13,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class BlocksFieldType
@@ -113,15 +113,28 @@ class BlocksFieldType extends FieldType
     /**
      * Get the relation.
      *
-     * @return BlocksRelation
+     * @return HasMany
      */
     public function getRelation()
     {
         $entry = $this->getEntry();
         $model = $this->getRelatedModel();
 
-        return (new BlocksRelation($model->newQuery(), $entry, $model->getTable() . '.' . 'related_id', 'id'))
-            ->orderBy($this->getPivotTableName() . '.sort_order', 'ASC');
+        return new HasMany(
+            $model->newQuery(),
+            $entry,
+            'related_id',
+            'id'
+        );
+
+        return $entry->belongsToMany(
+            $model,
+            $this->getPivotTableName(),
+            'entry_id',
+            'related_id'
+        );
+//        return (new BlocksRelation($model->newQuery(), $entry, $model->getTable() . '.' . 'related_id', 'id'))
+//            ->orderBy($this->getPivotTableName() . '.sort_order', 'ASC');
     }
 
     /**
@@ -221,10 +234,11 @@ class BlocksFieldType extends FieldType
      *
      * @param FieldInterface  $field
      * @param StreamInterface $stream
+     * @param                 $block
      * @param null            $instance
      * @return FormBuilder
      */
-    public function form(FieldInterface $field, StreamInterface $stream, $instance = null)
+    public function form(FieldInterface $field, StreamInterface $stream, $block, $instance = null)
     {
         /* @var EntryInterface $model */
         $model = $stream->getEntryModel();
@@ -232,10 +246,11 @@ class BlocksFieldType extends FieldType
         /* @var FormBuilder $builder */
         $builder = $model->newBlocksFieldTypeFormBuilder()
             ->setModel($model)
+            ->setOption('block_type', $block)
             ->setOption('blocks_instance', $instance)
             ->setOption('blocks_field', $field->getId())
-            ->setOption('blocks_title', $stream->getName())
             ->setOption('blocks_prefix', $this->getFieldName())
+            ->setOption('blocks_title', $block . '::addon.title')
             ->setOption('form_view', 'anomaly.field_type.blocks::form')
             ->setOption('wrapper_view', 'anomaly.field_type.blocks::wrapper')
             ->setOption('prefix', $this->getFieldName() . '_' . $instance . '_');
@@ -299,6 +314,7 @@ class BlocksFieldType extends FieldType
                     'related_id' => $this->entry->getId(),
                     'entry_id'   => $builder->getFormEntryId(),
                     'entry_type' => get_class($builder->getFormEntry()),
+                    'block_type' => $builder->getOption('block_type'),
                 ];
             }
         )->all();

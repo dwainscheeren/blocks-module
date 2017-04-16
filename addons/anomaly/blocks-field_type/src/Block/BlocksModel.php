@@ -1,4 +1,4 @@
-<?php namespace Anomaly\BlocksFieldType\Blocks;
+<?php namespace Anomaly\BlocksFieldType\Block;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +31,7 @@ class BlocksModel extends Model implements PresentableInterface
         'entry_id',
         'entry_type',
         'related_id',
+        'block_type',
         'sort_order',
     ];
 

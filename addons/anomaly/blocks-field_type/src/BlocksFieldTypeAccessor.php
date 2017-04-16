@@ -53,7 +53,9 @@ class BlocksFieldTypeAccessor extends FieldTypeAccessor
             return;
         }
 
-        $this->fieldType->getRelation()->createMany($value);
+        array_walk($value, function($insert) {
+            $this->fieldType->getRelatedModel()->newQuery()->insert($insert);
+        });
     }
 
     /**

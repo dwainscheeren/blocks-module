@@ -9,15 +9,15 @@
 
     {% include "streams::modals/filter" %}
 
-    {% if not blockss.isEmpty() %}
+    {% if not blocks.isEmpty() %}
         <ul class="nav nav-pills nav-stacked">
-            {% for blocks in blockss %}
+            {% for block in blocks %}
                 <li class="nav-item">
-                    <a href="{{ url_to('/blocks-field_type/form/' ~ route_parameter('field')) }}/{{ blocks.stream.id }}?prefix={{ request_get('prefix') }}"
+                    <a href="{{ url_to('/blocks-field_type/form/' ~ route_parameter('field')) }}/{{ block.namespace }}?prefix={{ request_get('prefix') }}"
                        class="add-row nav-link has-click-event">
-                        <strong>{{ blocks.stream.name }}</strong>
+                        <strong>{{ trans(block.title) }}</strong>
                         <br>
-                        <small>{{ blocks.stream.description }}</small>
+                        <small>{{ trans(block.description) }}</small>
                     </a>
                 </li>
             {% endfor %}

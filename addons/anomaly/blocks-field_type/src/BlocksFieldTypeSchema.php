@@ -35,6 +35,7 @@ class BlocksFieldTypeSchema extends FieldTypeSchema
                 $table->increments('id');
                 $table->integer('entry_id');
                 $table->string('entry_type');
+                $table->string('block_type');
                 $table->integer('related_id');
                 $table->integer('sort_order')->nullable();
 

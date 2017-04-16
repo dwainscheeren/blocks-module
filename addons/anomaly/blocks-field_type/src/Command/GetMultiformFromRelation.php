@@ -1,6 +1,6 @@
 <?php namespace Anomaly\BlocksFieldType\Command;
 
-use Anomaly\BlocksFieldType\Blocks\BlocksModel;
+use Anomaly\BlocksFieldType\Block\BlocksModel;
 use Anomaly\BlocksFieldType\BlocksFieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
@@ -72,7 +72,7 @@ class GetMultiformFromRelation
 
             $type->setPrefix($this->fieldType->getPrefix());
 
-            $form = $type->form($field, $entry->getStream(), $instance)->setEntry($entry->getId());
+            $form = $type->form($field, $entry->getStream(), $blocks->block_type, $instance)->setEntry($entry->getId());
 
             $form->setReadOnly($this->fieldType->isReadOnly());
 

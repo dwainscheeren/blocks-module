@@ -1,4 +1,4 @@
-<?php namespace Anomaly\BlocksFieldType\Blocks;
+<?php namespace Anomaly\BlocksFieldType\Block;
 
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Support\Decorator;

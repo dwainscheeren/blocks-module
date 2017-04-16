@@ -7,15 +7,17 @@ use Anomaly\BlocksModule\Group\GroupRepository;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\AddonIntegrator;
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class BlocksModuleServiceProvider
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\BlocksModule
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class BlocksModuleServiceProvider extends AddonServiceProvider
 {
@@ -73,22 +75,22 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
             true
         );
 
-        $addons->push($addon);
+        $addons->put($addon->getNamespace(), $addon);
 
-//        $model->bind(
-//            'new_block_field_type_form_builder',
-//            function (Container $container) {
-//
-//                /* @var EntryInterface $this */
-//                $builder = $this->getBoundModelNamespace() . '\\Support\\BlocksFieldType\\FormBuilder';
-//
-//                if (class_exists($builder)) {
-//                    return $container->make($builder);
-//                }
-//
-//                return $container->make(FormBuilder::class);
-//            }
-//        );
+        $model->bind(
+            'new_blocks_field_type_form_builder',
+            function (Container $container) {
+
+                /* @var EntryInterface $this */
+                $builder = $this->getBoundModelNamespace() . '\\Support\\BlocksFieldType\\FormBuilder';
+
+                if (class_exists($builder)) {
+                    return $container->make($builder);
+                }
+
+                return $container->make(FormBuilder::class);
+            }
+        );
     }
 
 }

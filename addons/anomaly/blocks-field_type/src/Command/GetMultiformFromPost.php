@@ -67,7 +67,7 @@ class GetMultiformFromPost
 
             $type->setPrefix($this->fieldType->getPrefix());
 
-            $form = $type->form($field, $stream, $item['instance']);
+            $form = $type->form($field, $stream, $item['type'], $item['instance']);
 
             if ($item['entry']) {
                 $form->setEntry($item['entry']);

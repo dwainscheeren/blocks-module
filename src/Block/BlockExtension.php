@@ -1,6 +1,8 @@
 <?php namespace Anomaly\BlocksModule\Block;
 
+use Anomaly\BlocksModule\Block\Command\GetBlockStream;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class BlockExtension
@@ -12,4 +14,13 @@ use Anomaly\Streams\Platform\Addon\Extension\Extension;
 class BlockExtension extends Extension
 {
 
+    /**
+     * Get the block extension stream.
+     *
+     * @return StreamInterface
+     */
+    public function getStream()
+    {
+        return $this->dispatch(new GetBlockStream($this));
+    }
 }

@@ -1,11 +1,12 @@
 <?php namespace Anomaly\BlocksFieldType\Http\Controller;
 
 use Anomaly\BlocksFieldType\BlocksFieldType;
+use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\PublicController;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
  * Class BlocksController
@@ -24,7 +25,7 @@ class BlocksController extends PublicController
      * @param                          $field
      * @return \Illuminate\Contracts\View\View|mixed
      */
-    public function choose(FieldRepositoryInterface $fields, StreamRepositoryInterface $streams, $field)
+    public function choose(FieldRepositoryInterface $fields, ExtensionCollection $extensions, $field)
     {
         /* @var FieldInterface $field */
         $field = $fields->find($field);
@@ -34,21 +35,22 @@ class BlocksController extends PublicController
 
         $related = $type->config('related', []);
 
-        if (!$related) {
-            $related = array_map(
-                function (StreamInterface $stream) {
-                    return $stream->getEntryModelName();
-                },
-                $streams->findAllByNamespace('blocks')->all()
-            );
-        }
+        //if (!$related) {
+        $related = array_map(
+            function (BlockExtension $extension) {
+                return $extension->getNamespace();
+            },
+            $extensions->search('anomaly.module.blocks::block.*')->enabled()->all()
+        );
+
+        //}
 
         return $this->view->make(
             'anomaly.field_type.blocks::choose',
             [
-                'blockss' => array_map(
-                    function ($model) {
-                        return app($model);
+                'blocks' => array_map(
+                    function ($extension) use ($extensions) {
+                        return $extensions->get($extension);
                     },
                     $related
                 ),
@@ -60,21 +62,24 @@ class BlocksController extends PublicController
      * Return a form row.
      *
      * @param FieldRepositoryInterface  $fields
-     * @param StreamRepositoryInterface $streams
+     * @param ExtensionCollection       $extensions
      * @param                           $field
-     * @param                           $stream
+     * @param                           $extension
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function form(
         FieldRepositoryInterface $fields,
-        StreamRepositoryInterface $streams,
+        ExtensionCollection $extensions,
         $field,
-        $stream
+        $extension
     ) {
         /* @var FieldInterface $field */
+        /* @var BlockExtension $extension */
+        $field     = $fields->find($field);
+        $extension = $extensions->get($extension);
+
         /* @var StreamInterface $stream */
-        $field  = $fields->find($field);
-        $stream = $streams->find($stream);
+        $stream = $extension->getStream();
 
         /* @var BlocksFieldType $type */
         $type = $field->getType();
@@ -82,7 +87,12 @@ class BlocksController extends PublicController
         $type->setPrefix($this->request->get('prefix'));
 
         return $type
-            ->form($field, $stream, $this->request->get('instance'))
+            ->form(
+                $field,
+                $stream,
+                $extension,
+                $this->request->get('instance')
+            )
             ->addFormData('field_type', $type)
             ->render();
     }

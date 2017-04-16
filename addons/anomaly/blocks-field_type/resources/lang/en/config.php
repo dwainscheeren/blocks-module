@@ -1,13 +1,6 @@
 <?php
 
 return [
-    'related' => [
-        'label'        => 'Blockss',
-        'warning'      => 'If none are selected all Blockss will be available.',
-        'instructions' => 'Specify the related <a href="' . url(
-                'admin/blockss'
-            ) . '" target="_blank">blockss</a>.',
-    ],
     'add_row' => [
         'label'        => 'Add Row',
         'instructions' => 'Specify custom text for the "Add Row" button.',

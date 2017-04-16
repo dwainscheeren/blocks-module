@@ -1,6 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Block;
 
-use Anomaly\BlocksModule\Block\Command\GetBlock;
+use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -25,13 +25,8 @@ class BlockCollection extends EntryCollection
     {
         return implode(
             "\n\n",
-            $this->each(
-                function ($item) {
-
-                    if (!$block = $this->dispatch(new GetBlock($item))) {
-                        return null;
-                    }
-
+            $this->undecorate()->map(
+                function (BlockInterface $block) {
                     return $block->render();
                 }
             )->all()
