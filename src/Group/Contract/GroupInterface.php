@@ -1,6 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Group\Contract;
 
-use Anomaly\BlocksModule\Block\BlockCollection;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Interface GroupInterface
@@ -16,7 +16,7 @@ interface GroupInterface
     /**
      * Get the related blocks.
      *
-     * @return BlockCollection
+     * @return Collection
      */
     public function getBlocks();
 }

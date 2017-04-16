@@ -20,7 +20,6 @@ class AnomalyModuleBlocksCreateGroupsStream extends Migration
     protected $stream = [
         'slug'         => 'groups',
         'title_column' => 'name',
-        'locked'       => true
     ];
 
     /**
@@ -31,16 +30,14 @@ class AnomalyModuleBlocksCreateGroupsStream extends Migration
     protected $assignments = [
         'name' => [
             'required' => true,
-            'unique'   => true
+            'unique'   => true,
         ],
         'slug' => [
             'required' => true,
             'unique'   => true,
-            'config'   => [
-                'type' => '_'
-            ]
         ],
-        'description'
+        'description',
+        'blocks',
     ];
 
 }

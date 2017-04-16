@@ -1,10 +1,7 @@
 <?php
 
 return [
-    'blocks' => [
-        'name' => 'Blocks'
-    ],
     'groups' => [
-        'name' => 'Groups'
-    ]
+        'name' => 'Groups',
+    ],
 ];

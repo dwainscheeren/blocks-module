@@ -1,7 +1,5 @@
 <?php namespace Anomaly\BlocksModule;
 
-use Anomaly\BlocksModule\Block\BlockRepository;
-use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\BlocksModule\Group\Contract\GroupRepositoryInterface;
 use Anomaly\BlocksModule\Group\GroupRepository;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
@@ -37,13 +35,9 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $routes = [
-        'admin/blocks'                  => 'Anomaly\BlocksModule\Http\Controller\Admin\BlocksController@index',
-        'admin/blocks/choose'           => 'Anomaly\BlocksModule\Http\Controller\Admin\BlocksController@choose',
-        'admin/blocks/create'           => 'Anomaly\BlocksModule\Http\Controller\Admin\BlocksController@create',
-        'admin/blocks/edit/{id}'        => 'Anomaly\BlocksModule\Http\Controller\Admin\BlocksController@edit',
-        'admin/blocks/groups'           => 'Anomaly\BlocksModule\Http\Controller\Admin\GroupsController@index',
-        'admin/blocks/groups/create'    => 'Anomaly\BlocksModule\Http\Controller\Admin\GroupsController@create',
-        'admin/blocks/groups/edit/{id}' => 'Anomaly\BlocksModule\Http\Controller\Admin\GroupsController@edit',
+        'admin/blocks'           => 'Anomaly\BlocksModule\Http\Controller\Admin\GroupsController@index',
+        'admin/blocks/create'    => 'Anomaly\BlocksModule\Http\Controller\Admin\GroupsController@create',
+        'admin/blocks/edit/{id}' => 'Anomaly\BlocksModule\Http\Controller\Admin\GroupsController@edit',
     ];
 
     /**
@@ -52,7 +46,6 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $singletons = [
-        BlockRepositoryInterface::class => BlockRepository::class,
         GroupRepositoryInterface::class => GroupRepository::class,
     ];
 

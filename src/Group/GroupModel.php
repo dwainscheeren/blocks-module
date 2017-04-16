@@ -1,9 +1,8 @@
 <?php namespace Anomaly\BlocksModule\Group;
 
-use Anomaly\BlocksModule\Block\BlockCollection;
-use Anomaly\BlocksModule\Block\BlockModel;
 use Anomaly\BlocksModule\Group\Contract\GroupInterface;
 use Anomaly\Streams\Platform\Model\Blocks\BlocksGroupsEntryModel;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class GroupModel
@@ -19,20 +18,10 @@ class GroupModel extends BlocksGroupsEntryModel implements GroupInterface
     /**
      * Get the related blocks.
      *
-     * @return BlockCollection
+     * @return Collection
      */
     public function getBlocks()
     {
         return $this->blocks;
-    }
-
-    /**
-     * Return the blocks relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function blocks()
-    {
-        return $this->hasMany(BlockModel::class, 'group_id');
     }
 }

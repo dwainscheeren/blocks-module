@@ -1,10 +1,6 @@
 <?php
 
 return [
-    'title'       => [
-        'name'         => 'Title',
-        'instructions' => 'If a title is provided it will be displayed at the top of the widget.',
-    ],
     'name'        => [
         'name'         => 'Name',
         'instructions' => 'Use a short easily identifiable name.',
@@ -17,12 +13,7 @@ return [
         'name'         => 'Description',
         'instructions' => 'Briefly describe the entry and how it might be used.',
     ],
-    'group'       => [
-        'name'         => 'Group',
-        'instructions' => 'Choose an optional group to add this block to.',
-        'placeholder'  => 'Choose a group...',
-    ],
-    'type'        => [
-        'name' => 'Type',
+    'blocks'      => [
+        'name' => 'Blocks',
     ],
 ];

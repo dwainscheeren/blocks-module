@@ -1,6 +1,5 @@
 <?php
 
-use Anomaly\BlocksModule\Group\GroupModel;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
 /**
@@ -19,30 +18,16 @@ class AnomalyModuleBlocksCreateBlocksFields extends Migration
      * @var array
      */
     protected $fields = [
-        'title'       => 'anomaly.field_type.text',
         'name'        => 'anomaly.field_type.text',
         'description' => 'anomaly.field_type.textarea',
-        'entry'       => 'anomaly.field_type.polymorphic',
         'slug'        => [
             'type'   => 'anomaly.field_type.slug',
             'config' => [
+                'type'    => '-',
                 'slugify' => 'name',
             ],
         ],
-        'type'        => [
-            'type'   => 'anomaly.field_type.addon',
-            'config' => [
-                'type'   => 'extensions',
-                'search' => 'anomaly.module.blocks::block.*',
-            ],
-        ],
-        'group'       => [
-            'type'   => 'anomaly.field_type.relationship',
-            'config' => [
-                'mode'    => 'search',
-                'related' => GroupModel::class,
-            ],
-        ],
+        'blocks' => 'anomaly.field_type.blocks',
     ];
 
 }
