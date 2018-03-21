@@ -3,6 +3,8 @@
 use Anomaly\BlocksModule\Block\Command\MakeBlock;
 use Anomaly\BlocksModule\Block\Command\RenderBlock;
 use Anomaly\BlocksModule\Block\Contract\BlockInterface;
+use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationRepositoryInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\Blocks\BlocksBlocksEntryModel;
 
@@ -15,6 +17,25 @@ use Anomaly\Streams\Platform\Model\Blocks\BlocksBlocksEntryModel;
  */
 class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
 {
+
+    /**
+     * The configuration repository.
+     *
+     * @var ConfigurationRepositoryInterface
+     */
+    protected $configuration;
+
+    /**
+     * Create a new BlockModel instance.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->configuration = app(ConfigurationRepositoryInterface::class);
+
+        parent::__construct($attributes);
+    }
 
     /**
      * Return the rendered block.
@@ -70,6 +91,19 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
         return $this
             ->getExtension()
             ->setBlock($this);
+    }
+
+    /**
+     * Return a configuration value.
+     *
+     * @param $key
+     * @return null|FieldTypePresenter
+     */
+    public function configuration($key)
+    {
+        $extension = $this->getExtension();
+
+        return $this->configuration->presenter($extension->getNamespace($key), $this->getId());
     }
 
     /**

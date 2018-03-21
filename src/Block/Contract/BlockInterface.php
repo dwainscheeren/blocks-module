@@ -1,6 +1,7 @@
 <?php namespace Anomaly\BlocksModule\Block\Contract;
 
 use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
@@ -40,6 +41,14 @@ interface BlockInterface extends EntryInterface
      * @return BlockExtension
      */
     public function extension();
+
+    /**
+     * Return a configuration value.
+     *
+     * @param $key
+     * @return null|FieldTypePresenter
+     */
+    public function configuration($key);
 
     /**
      * Get the related entry.
