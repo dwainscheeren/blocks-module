@@ -71,16 +71,6 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     }
 
     /**
-     * Get the slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
      * Get the extension.
      *
      * @return BlockExtension
@@ -136,6 +126,16 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     public function getEntry()
     {
         return $this->entry;
+    }
+
+    /**
+     * Get the related area.
+     *
+     * @return null|EntryInterface
+     */
+    public function getArea()
+    {
+        return $this->area;
     }
 
     /**

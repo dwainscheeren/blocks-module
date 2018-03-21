@@ -54,7 +54,7 @@ class GetMultiformFromData
         }
 
         foreach ($value as $item) {
-
+dd('Get from data');
             /* @var FieldInterface $field */
             if (!$field = $fields->find($item['field'])) {
                 continue;
@@ -70,7 +70,7 @@ class GetMultiformFromData
 
             $type->setPrefix($this->fieldType->getPrefix());
 
-            $form = $type->form($field, $stream, $item['type'], $item['instance']);
+            $form = $type->form($field, $extension, $item['type'], $item['instance']);
 
             if ($item['entry']) {
                 $form->setEntry($item['entry']);

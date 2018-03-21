@@ -1,10 +1,10 @@
 <?php namespace Anomaly\BlocksFieldType;
 
-use Anomaly\BlocksFieldType\Block\BlocksModel;
 use Anomaly\BlocksFieldType\Command\GetMultiformFromPost;
 use Anomaly\BlocksFieldType\Command\GetMultiformFromValue;
 use Anomaly\BlocksFieldType\Validation\ValidateBlocks;
 use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\BlocksModule\Block\BlockModel;
 use Anomaly\BlocksModule\Block\Form\BlockFormBuilder;
 use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
@@ -12,8 +12,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Class BlocksFieldType
@@ -105,58 +104,13 @@ class BlocksFieldType extends FieldType
     /**
      * Get the relation.
      *
-     * @return HasMany
+     * @return MorphMany
      */
     public function getRelation()
     {
         $entry = $this->getEntry();
-        $model = $this->getRelatedModel();
 
-        return new HasMany(
-            $model->newQuery(),
-            $entry,
-            'related_id',
-            'id'
-        );
-
-        return $entry->belongsToMany(
-            $model,
-            $this->getPivotTableName(),
-            'entry_id',
-            'related_id'
-        );
-//        return (new BlocksRelation($model->newQuery(), $entry, $model->getTable() . '.' . 'related_id', 'id'))
-//            ->orderBy($this->getPivotTableName() . '.sort_order', 'ASC');
-    }
-
-    /**
-     * Get the pivot table.
-     *
-     * @return string
-     */
-    public function getPivotTableName()
-    {
-        return $this->entry->getTableName() . '_' . $this->getField();
-    }
-
-    /**
-     * Get the related table.
-     *
-     * @return string
-     */
-    public function getRelatedTableName()
-    {
-        return $this->getRelatedModel()->getTable();
-    }
-
-    /**
-     * Get the related model.
-     *
-     * @return null|Model
-     */
-    public function getRelatedModel()
-    {
-        return (new BlocksModel())->setTable($this->getPivotTableName());
+        return $entry->morphMany(BlockModel::class, 'area', 'area_type');
     }
 
     /**
@@ -227,7 +181,7 @@ class BlocksFieldType extends FieldType
      * @param FieldInterface $field
      * @param BlockExtension $extension
      * @param null           $instance
-     * @return FormBuilder
+     * @return MultipleFormBuilder
      */
     public function form(FieldInterface $field, BlockExtension $extension, $instance = null)
     {
@@ -254,10 +208,10 @@ class BlocksFieldType extends FieldType
         $extension->extend($form);
 
         $form
-            ->setOption('block_extension', $extension)
             ->setOption('block_instance', $instance)
             ->setOption('block_field', $field->getId())
             ->setOption('block_prefix', $this->getFieldName())
+            ->setOption('block_extension', $extension->getNamespace())
             ->setOption('block_title', $extension->getNamespace('addon.title'))
             ->setOption('form_view', 'anomaly.field_type.blocks::form')
             ->setOption('wrapper_view', 'anomaly.field_type.blocks::wrapper')
@@ -313,18 +267,18 @@ class BlocksFieldType extends FieldType
          */
         $forms->handle();
 
-        // See the accessor for how IDs are handled.
-        $entry->{$this->getField()} = $forms->getForms()->map(
-            function ($builder) {
-
-                /* @var FormBuilder $builder */
-                return [
-                    'related_id' => $this->entry->getId(),
-                    'entry_id'   => $builder->getFormEntryId(),
-                    'entry_type' => get_class($builder->getFormEntry()),
-                    'block_type' => $builder->getOption('block_type'),
-                ];
-            }
-        )->all();
+//        // See the accessor for how IDs are handled.
+//        $entry->{$this->getField()} = $forms->getForms()->map(
+//            function ($builder) {
+//
+//                /* @var FormBuilder $builder */
+//                return [
+//                    'related_id' => $this->entry->getId(),
+//                    'entry_id'   => $builder->getFormEntryId(),
+//                    'entry_type' => get_class($builder->getFormEntry()),
+//                    'block_type' => $builder->getOption('block_type'),
+//                ];
+//            }
+//        )->all();
     }
 }

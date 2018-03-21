@@ -1,11 +1,12 @@
 <?php namespace Anomaly\BlocksFieldType\Command;
 
-use Anomaly\BlocksFieldType\Block\BlocksModel;
 use Anomaly\BlocksFieldType\BlocksFieldType;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\BlocksModule\Block\Contract\BlockInterface;
+use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
 /**
@@ -49,21 +50,15 @@ class GetMultiformFromRelation
             return null;
         }
 
-        /* @var BlocksModel $blocks */
-        foreach ($value as $instance => $blocks) {
+        $decorator = new Decorator();
+
+        /* @var BlockInterface $entry */
+        foreach ($value as $instance => $entry) {
+
+            $extension = $decorator->undecorate($entry->extension());
 
             /* @var FieldInterface $field */
             if (!$field = $fields->find($this->fieldType->id())) {
-                continue;
-            }
-
-            /**
-             * If the entry no longer exists
-             * we need to skip this row.
-             *
-             * @var EntryInterface $entry
-             */
-            if (!$entry = $blocks->getEntry()) {
                 continue;
             }
 
@@ -72,9 +67,33 @@ class GetMultiformFromRelation
 
             $type->setPrefix($this->fieldType->getPrefix());
 
-            $form = $type->form($field, $entry->getStream(), $blocks->block_type, $instance)->setEntry($entry->getId());
+            $form = $type->form(
+                $field,
+                $extension,
+                $instance
+            );
 
-            $form->setReadOnly($this->fieldType->isReadOnly());
+            if ($block = $form->getChildForm('block')) {
+                $block
+                    ->setEntry($entry)
+                    ->setReadOnly(
+                        $this->fieldType->isReadOnly()
+                    );
+            }
+
+            /* @var ConfigurationFormBuilder $configuration */
+            if ($configuration = $form->getChildForm('configuration')) {
+                $configuration
+                    ->setEntry($extension)
+                    ->setScope($entry->getId())
+                    ->setReadOnly(
+                        $this->fieldType->isReadOnly()
+                    );
+            }
+
+            $form
+                ->setReadOnly($this->fieldType->isReadOnly())
+                ->setOption('block_id', $entry->getId());
 
             $forms->addForm($this->fieldType->getFieldName() . '_' . $instance, $form);
         }

@@ -24,7 +24,7 @@
             .block-item-controls {
                 color: #ffffff;
                 background: #3e3e3e;
-                padding: .5rem 1rem;  // @todo: Why do variables break here?
+                padding: .5rem 1rem; // @todo: Why do variables break here?
 
                 a {
                     color: #ffffff;
@@ -56,11 +56,18 @@
                 width: 100%;
                 padding: 1rem;
 
-                .form-group {
-                    margin-bottom: 2rem;
+                .card {
+                    background: none;
 
-                    &:last-child {
-                        margin-bottom: 0;
+                    .card-block {
+                        padding: 0;
+
+                        .form-group {
+
+                            &:last-child {
+                                margin-bottom: 0;
+                            }
+                        }
                     }
                 }
             }

@@ -1,10 +1,11 @@
 <?php namespace Anomaly\BlocksFieldType\Command;
 
 use Anomaly\BlocksFieldType\BlocksFieldType;
+use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Illuminate\Http\Request;
 
@@ -38,14 +39,18 @@ class GetMultiformFromPost
     /**
      * Handle the command.
      *
-     * @param StreamRepositoryInterface $streams
-     * @param FieldRepositoryInterface  $fields
-     * @param MultipleFormBuilder       $forms
-     * @param Request                   $request
+     * @param ExtensionCollection      $extensions
+     * @param FieldRepositoryInterface $fields
+     * @param MultipleFormBuilder      $forms
+     * @param Request                  $request
      * @return MultipleFormBuilder|null
      */
-    public function handle(StreamRepositoryInterface $streams, FieldRepositoryInterface $fields, MultipleFormBuilder $forms, Request $request)
-    {
+    public function handle(
+        ExtensionCollection $extensions,
+        FieldRepositoryInterface $fields,
+        MultipleFormBuilder $forms,
+        Request $request
+    ) {
         if (!$request->has($this->fieldType->getFieldName())) {
             return null;
         }
@@ -57,8 +62,8 @@ class GetMultiformFromPost
                 continue;
             }
 
-            /* @var StreamInterface $stream */
-            if (!$stream = $streams->find($item['stream'])) {
+            /* @var BlockExtension $extension */
+            if (!$extension = $extensions->get($item['extension'])) {
                 continue;
             }
 
@@ -67,19 +72,39 @@ class GetMultiformFromPost
 
             $type->setPrefix($this->fieldType->getPrefix());
 
-            $form = $type->form($field, $stream, $item['type'], $item['instance']);
+            $form = $type->form(
+                $field,
+                $extension,
+                $item['instance']
+            );
 
-            if ($item['entry']) {
-                $form->setEntry($item['entry']);
+            if ($block = $form->getChildForm('block')) {
+                $block
+                    ->setEntry($item['block'])
+                    ->setReadOnly(
+                        $this->fieldType->isReadOnly()
+                    );
             }
+
+            /* @var ConfigurationFormBuilder $configuration */
+            if ($configuration = $form->getChildForm('configuration')) {
+                $configuration
+                    ->setEntry($extension)
+                    ->setScope($item['block'])
+                    ->setReadOnly(
+                        $this->fieldType->isReadOnly()
+                    );
+            }
+
+            $form
+                ->setReadOnly($this->fieldType->isReadOnly())
+                ->setOption('block_id', $item['block']);
 
             try {
                 $form->build();
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 dd($item);
             }
-
-            $form->setReadOnly($this->fieldType->isReadOnly());
 
             $forms->addForm($this->fieldType->getFieldName() . '_' . $item['instance'], $form);
         }

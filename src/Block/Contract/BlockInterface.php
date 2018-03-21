@@ -22,13 +22,6 @@ interface BlockInterface extends EntryInterface
     public function render();
 
     /**
-     * Get the slug.
-     *
-     * @return string
-     */
-    public function getSlug();
-
-    /**
      * Get the extension.
      *
      * @return BlockExtension
@@ -72,6 +65,12 @@ interface BlockInterface extends EntryInterface
      */
     public function getEntryId();
 
+    /**
+     * Get the related area.
+     *
+     * @return null|EntryInterface
+     */
+    public function getArea();
 
     /**
      * Get the content.
