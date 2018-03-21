@@ -64,7 +64,12 @@ class ExtendFormSections
 
                     /* @var FormBuilder $builder */
                     foreach ($this->builder->getForms() as $key => $builder) {
-                        $fields = array_unique(array_merge($fields, $builder->getFormFieldSlugs($key . '_')));
+                        $fields = array_unique(
+                            array_merge(
+                                $fields,
+                                $builder->getFormFieldSlugs($key . '_')
+                            )
+                        );
                     }
 
                     $this->builder->setSections(
@@ -74,6 +79,8 @@ class ExtendFormSections
                             ],
                         ]
                     );
+
+                    $this->builder->prefixSectionFields($this->builder->getOption('prefix'));
                 }
             );
 
@@ -81,6 +88,8 @@ class ExtendFormSections
         }
 
         $this->builder->mergeSections($sections);
+
+        $this->builder->prefixSectionFields($this->builder->getOption('prefix'));
     }
 
 }

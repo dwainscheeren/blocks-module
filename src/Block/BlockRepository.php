@@ -2,6 +2,7 @@
 
 use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
 
 /**
@@ -41,5 +42,20 @@ class BlockRepository extends EntryRepository implements BlockRepositoryInterfac
     public function findBySlug($slug)
     {
         return $this->model->where('slug', $slug)->first();
+    }
+
+    /**
+     * Sync an area's blocks.
+     *
+     * @param EntryInterface $area
+     * @param array          $ids
+     */
+    public function sync(EntryInterface $area, array $ids)
+    {
+        $this->model
+            ->where('area_type', get_class($area))
+            ->where('area_id', $area->getId())
+            ->whereNotIn('id', $ids)
+            ->delete();
     }
 }

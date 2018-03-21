@@ -74,21 +74,14 @@ class GetMultiformFromRelation
             );
 
             if ($block = $form->getChildForm('block')) {
-                $block
-                    ->setEntry($entry)
-                    ->setReadOnly(
-                        $this->fieldType->isReadOnly()
-                    );
+                $block->setEntry($entry);
             }
 
             /* @var ConfigurationFormBuilder $configuration */
             if ($configuration = $form->getChildForm('configuration')) {
                 $configuration
-                    ->setEntry($extension)
-                    ->setScope($entry->getId())
-                    ->setReadOnly(
-                        $this->fieldType->isReadOnly()
-                    );
+                    ->setEntry($extension->getNamespace())
+                    ->setScope($entry->getId());
             }
 
             $form

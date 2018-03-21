@@ -5,6 +5,7 @@ use Anomaly\BlocksFieldType\Command\GetMultiformFromValue;
 use Anomaly\BlocksFieldType\Validation\ValidateBlocks;
 use Anomaly\BlocksModule\Block\BlockExtension;
 use Anomaly\BlocksModule\Block\BlockModel;
+use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\BlocksModule\Block\Form\BlockFormBuilder;
 use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
@@ -191,11 +192,17 @@ class BlocksFieldType extends FieldType
         $form  = app(BlockInstanceFormBuilder::class);
         $block = app(BlockFormBuilder::class);
 
+        $form->setOption(
+            'prefix',
+            $this->getFieldName() . '_' . $instance . '_'
+        );
+
         $block->setExtension($extension);
 
         $form->on(
             'saving_block',
             function () use ($form, $block) {
+
                 $block->setFormEntryAttribute(
                     'entry',
                     $form->getChildFormEntry('entry')
@@ -214,8 +221,7 @@ class BlocksFieldType extends FieldType
             ->setOption('block_extension', $extension->getNamespace())
             ->setOption('block_title', $extension->getNamespace('addon.title'))
             ->setOption('form_view', 'anomaly.field_type.blocks::form')
-            ->setOption('wrapper_view', 'anomaly.field_type.blocks::wrapper')
-            ->setOption('prefix', $this->getFieldName() . '_' . $instance . '_');
+            ->setOption('wrapper_view', 'anomaly.field_type.blocks::wrapper');
 
         return $form;
     }
@@ -244,9 +250,10 @@ class BlocksFieldType extends FieldType
     /**
      * Handle saving the form data ourselves.
      *
-     * @param FormBuilder $builder
+     * @param FormBuilder              $builder
+     * @param BlockRepositoryInterface $blocks
      */
-    public function handle(FormBuilder $builder)
+    public function handle(FormBuilder $builder, BlockRepositoryInterface $blocks)
     {
         $entry = $builder->getFormEntry();
 
@@ -261,24 +268,35 @@ class BlocksFieldType extends FieldType
             return;
         }
 
+        /* @var BlockInstanceFormBuilder $form */
+        foreach ($forms->getForms()->values() as $key => $form) {
+
+            /* @var BlockFormBuilder $block */
+            $block = $form->getChildForm('block');
+
+            $block->setArea($this->getEntry());
+
+            $block->on(
+                'saving',
+                function () use ($block, $key) {
+                    $block->setFormEntryAttribute('sort_order', $key + 1);
+                }
+            );
+        }
+
         /*
          * Handle the post action
          * for all the child forms.
          */
         $forms->handle();
 
-//        // See the accessor for how IDs are handled.
-//        $entry->{$this->getField()} = $forms->getForms()->map(
-//            function ($builder) {
-//
-//                /* @var FormBuilder $builder */
-//                return [
-//                    'related_id' => $this->entry->getId(),
-//                    'entry_id'   => $builder->getFormEntryId(),
-//                    'entry_type' => get_class($builder->getFormEntry()),
-//                    'block_type' => $builder->getOption('block_type'),
-//                ];
-//            }
-//        )->all();
+        $blocks->sync(
+            $this->getEntry(),
+            $forms->getForms()->map(
+                function (BlockInstanceFormBuilder $form) {
+                    return $form->getChildFormEntryId('block');
+                }
+            )->values()->all()
+        );
     }
 }

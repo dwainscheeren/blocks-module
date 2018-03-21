@@ -1,5 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Block\Contract;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 
 /**
@@ -20,4 +21,13 @@ interface BlockRepositoryInterface extends EntryRepositoryInterface
      * @return null|BlockInterface
      */
     public function findBySlug($slug);
+
+    /**
+     * Sync an area's blocks.
+     *
+     * @param EntryInterface $area
+     * @param array          $ids
+     */
+    public function sync(EntryInterface $area, array $ids);
+
 }

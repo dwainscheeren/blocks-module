@@ -1,11 +1,12 @@
 <?php namespace Anomaly\BlocksFieldType\Command;
 
 use Anomaly\BlocksFieldType\BlocksFieldType;
+use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
 /**
@@ -38,30 +39,31 @@ class GetMultiformFromData
     /**
      * Get the multiple form builder from the value.
      *
-     * @param StreamRepositoryInterface $streams
-     * @param FieldRepositoryInterface  $fields
-     * @param MultipleFormBuilder       $forms
+     * @param ExtensionCollection      $extensions
+     * @param FieldRepositoryInterface $fields
+     * @param MultipleFormBuilder      $forms
      * @return MultipleFormBuilder|null
      */
     public function handle(
-        StreamRepositoryInterface $streams,
+        ExtensionCollection $extensions,
         FieldRepositoryInterface $fields,
         MultipleFormBuilder $forms
     ) {
+
         /* @var EntryCollection $value */
         if (!$value = $this->fieldType->getValue()) {
             return null;
         }
 
         foreach ($value as $item) {
-dd('Get from data');
+
             /* @var FieldInterface $field */
             if (!$field = $fields->find($item['field'])) {
                 continue;
             }
 
-            /* @var StreamInterface $stream */
-            if (!$stream = $streams->find($item['stream'])) {
+            /* @var BlockExtension $extension */
+            if (!$extension = $extensions->get($item['extension'])) {
                 continue;
             }
 
@@ -70,13 +72,26 @@ dd('Get from data');
 
             $type->setPrefix($this->fieldType->getPrefix());
 
-            $form = $type->form($field, $extension, $item['type'], $item['instance']);
+            $form = $type->form(
+                $field,
+                $extension,
+                $item['instance']
+            );
 
-            if ($item['entry']) {
-                $form->setEntry($item['entry']);
+            if ($item['block'] && $block = $form->getChildForm('block')) {
+                $block->setEntry($item['block']);
             }
 
-            $form->setReadOnly($this->fieldType->isReadOnly());
+            /* @var ConfigurationFormBuilder $configuration */
+            if ($configuration = $form->getChildForm('configuration')) {
+                $configuration
+                    ->setEntry($extension->getNamespace())
+                    ->setScope($item['block']);
+            }
+
+            $form
+                ->setReadOnly($this->fieldType->isReadOnly())
+                ->setOption('block_id', $item['block']);
 
             $forms->addForm($this->fieldType->getFieldName() . '_' . $item['instance'], $form);
         }

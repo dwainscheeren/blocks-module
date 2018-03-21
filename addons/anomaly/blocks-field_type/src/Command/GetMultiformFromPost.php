@@ -78,33 +78,22 @@ class GetMultiformFromPost
                 $item['instance']
             );
 
-            if ($block = $form->getChildForm('block')) {
-                $block
-                    ->setEntry($item['block'])
-                    ->setReadOnly(
-                        $this->fieldType->isReadOnly()
-                    );
+            if ($item['block'] && $block = $form->getChildForm('block')) {
+                $block->setEntry($item['block']);
             }
 
             /* @var ConfigurationFormBuilder $configuration */
             if ($configuration = $form->getChildForm('configuration')) {
                 $configuration
-                    ->setEntry($extension)
-                    ->setScope($item['block'])
-                    ->setReadOnly(
-                        $this->fieldType->isReadOnly()
-                    );
+                    ->setEntry($extension->getNamespace())
+                    ->setScope($item['block']);
             }
 
             $form
                 ->setReadOnly($this->fieldType->isReadOnly())
                 ->setOption('block_id', $item['block']);
 
-            try {
-                $form->build();
-            } catch (\Exception $e) {
-                dd($item);
-            }
+            $form->build();
 
             $forms->addForm($this->fieldType->getFieldName() . '_' . $item['instance'], $form);
         }
