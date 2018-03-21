@@ -137,7 +137,7 @@ class BlocksController extends AdminController
 
         $form->addForm('block', $block);
 
-        $extension->extend($form, $block);
+        $extension->extend($form);
 
         return $form->render($id);
     }

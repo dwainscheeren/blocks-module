@@ -52,8 +52,6 @@ class ExtendFormSections
 
         if (!$sections) {
 
-            $this->builder->setSections([]);
-
             $last = $this->builder
                 ->getForms()
                 ->last();
@@ -62,12 +60,20 @@ class ExtendFormSections
                 'built',
                 function () {
 
-                    $this->builder->setFields(['block_title']);
+                    $fields = ['block_title'];
 
                     /* @var FormBuilder $builder */
                     foreach ($this->builder->getForms() as $key => $builder) {
-                        $this->builder->addFields($builder->getFormFieldSlugs($key . '_'));
+                        $fields = array_unique(array_merge($fields, $builder->getFormFieldSlugs($key . '_')));
                     }
+
+                    $this->builder->setSections(
+                        [
+                            'default' => [
+                                'fields' => $fields,
+                            ],
+                        ]
+                    );
                 }
             );
 
