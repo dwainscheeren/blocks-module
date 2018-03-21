@@ -2,6 +2,7 @@
 
 use Anomaly\BlocksFieldType\BlocksFieldType;
 use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
@@ -33,14 +34,16 @@ class BlocksController extends PublicController
         /* @var BlocksFieldType $type */
         $type = $field->getType();
 
-        $related = $type->config('related', []);
+        $allowed = $type->config('allowed', []);
 
-        //if (!$related) {
-        $related = array_map(
+        //if (!$allowed) {
+        $allowed = array_map(
             function (BlockExtension $extension) {
                 return $extension->getNamespace();
             },
-            $extensions->search('anomaly.module.blocks::block.*')->enabled()->all()
+            $extensions->search('anomaly.module.blocks::block.*')
+                ->enabled()
+                ->all()
         );
 
         //}
@@ -52,7 +55,7 @@ class BlocksController extends PublicController
                     function ($extension) use ($extensions) {
                         return $extensions->get($extension);
                     },
-                    $related
+                    $allowed
                 ),
             ]
         );
@@ -61,10 +64,10 @@ class BlocksController extends PublicController
     /**
      * Return a form row.
      *
-     * @param FieldRepositoryInterface  $fields
-     * @param ExtensionCollection       $extensions
-     * @param                           $field
-     * @param                           $extension
+     * @param FieldRepositoryInterface $fields
+     * @param ExtensionCollection      $extensions
+     * @param                          $field
+     * @param                          $extension
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function form(
@@ -73,13 +76,11 @@ class BlocksController extends PublicController
         $field,
         $extension
     ) {
+
         /* @var FieldInterface $field */
         /* @var BlockExtension $extension */
         $field     = $fields->find($field);
         $extension = $extensions->get($extension);
-
-        /* @var StreamInterface $stream */
-        $stream = $extension->getStream();
 
         /* @var BlocksFieldType $type */
         $type = $field->getType();
@@ -89,7 +90,6 @@ class BlocksController extends PublicController
         return $type
             ->form(
                 $field,
-                $stream,
                 $extension,
                 $this->request->get('instance')
             )

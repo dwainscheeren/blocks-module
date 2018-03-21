@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'manage'  => 'Manage',
-    'add_row' => 'Add Row',
+    'add_block'  => 'Add Block',
+    'select_all' => 'Select All',
 ];

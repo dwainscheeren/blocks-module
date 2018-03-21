@@ -17,11 +17,11 @@ class BlockCollection extends EntryCollection
     use DispatchesJobs;
 
     /**
-     * Return the string value.
+     * Render the blocks.
      *
      * @return string
      */
-    public function __toString()
+    public function render()
     {
         return implode(
             "\n\n",
@@ -31,5 +31,15 @@ class BlockCollection extends EntryCollection
                 }
             )->all()
         );
+    }
+
+    /**
+     * Return the string value.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->render();
     }
 }

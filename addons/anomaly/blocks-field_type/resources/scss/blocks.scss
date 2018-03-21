@@ -2,7 +2,7 @@
 
     .blocks-container {
 
-        .blocks-item {
+        .block-item {
             margin: 1rem 0;
             background: rgba(200, 200, 200, 0.15);
 
@@ -12,16 +12,16 @@
 
             &.collapsed {
 
-                .blocks-body {
+                .block-body {
                     display: none;
                 }
             }
 
-            .blocks-loading {
+            .block-loading {
                 padding: 1rem;
             }
 
-            .blocks-item-controls {
+            .block-item-controls {
                 color: #ffffff;
                 background: #3e3e3e;
                 padding: .5rem 1rem;  // @todo: Why do variables break here?
@@ -42,22 +42,22 @@
                     display: inline-block;
                 }
 
-                .blocks-handle {
+                .block-handle {
                     cursor: move;
                 }
             }
 
-            .blocks-header {
+            .block-header {
                 padding: 1rem 1rem 0;
                 border-bottom: 1px solid rgba(50, 50, 50, 0.1);
             }
 
-            .blocks-body {
+            .block-body {
                 width: 100%;
                 padding: 1rem;
 
                 .form-group {
-                    //margin-bottom: 2rem;
+                    margin-bottom: 2rem;
 
                     &:last-child {
                         margin-bottom: 0;

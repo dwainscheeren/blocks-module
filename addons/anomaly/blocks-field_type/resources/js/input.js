@@ -1,18 +1,18 @@
 $(document).on('ajaxComplete ready', function () {
 
-    var blockss = $('[data-provides="anomaly.field_type.blocks"]:not([data-initialized])');
+    var blocks = $('[data-provides="anomaly.field_type.blocks"]:not([data-initialized])');
 
-    blockss.each(function () {
+    blocks.each(function () {
 
         $(this).attr('data-initialized', '');
 
         var wrapper = $(this);
         var field = wrapper.data('field_name');
         var modal = $('#' + field + '-modal');
-        var items = $(this).find('.blocks-item');
+        var items = $(this).find('.block-item');
         var instance = $(this).data('instance');
         var add = wrapper.find('.add-row[data-instance="' + instance + '"]');
-        var cookie = 'blocks:' + $(this).closest('.blocks-container').data('field_name');
+        var cookie = 'block:' + $(this).closest('.block-container').data('field_name');
 
         var collapsed = Cookies.getJSON(cookie);
 
@@ -44,43 +44,119 @@ $(document).on('ajaxComplete ready', function () {
             }
         });
 
+        wrapper.on('dblclick', '.block-item-controls', function () {
+            $(this).find('[data-toggle="collapse"]:first').trigger('click');
+        });
+
         wrapper.on('click', '[data-toggle="collapse"]', function () {
-
-            var toggle = $(this);
-            var item = toggle.closest('.blocks-item');
-            var text = toggle.find('span');
-
-            item
-                .toggleClass('collapsed')
-                .find('[data-toggle="collapse"] i')
-                .toggleClass('fa-compress')
-                .toggleClass('fa-expand');
-
-            if (toggle.find('i').hasClass('fa-compress')) {
-                text.text(toggle.data('collapse'));
-            } else {
-                text.text(toggle.data('expand'));
-            }
-
-            toggle
-                .closest('.dropdown')
-                .find('.dropdown-toggle')
-                .trigger('click');
 
             if (typeof collapsed == 'undefined') {
                 collapsed = {};
             }
 
-            collapsed[items.index(item)] = item.hasClass('collapsed');
+            // Stash the action.
+            var action = $(this).find('i').hasClass('fa-expand') ? 'expanding' : 'collapsing';
+
+            // Check this row.
+            $(this).closest('.block-item').find('input[type="checkbox"]:first').prop('checked', true);
+
+            // Hide the dropdown menu.
+            $(this).closest('.block-item').find('.dropdown:first .open').removeClass('open');
+
+            wrapper.find('.block-item').each(function () {
+
+                var item = $(this);
+                var toggle = item.find('[data-toggle="collapse"]');
+                var checkbox = item.find('input[type="checkbox"]:first');
+                var text = toggle.find('span');
+
+                if (action == 'collapsing' && item.hasClass('collapsed')) {
+                    checkbox.prop('checked', false);
+                }
+
+                if (action == 'expanding' && !item.hasClass('collapsed')) {
+                    checkbox.prop('checked', false);
+                }
+
+                if (checkbox.prop('checked')) {
+                    item
+                        .toggleClass('collapsed')
+                        .find('[data-toggle="collapse"] i')
+                        .toggleClass('fa-compress')
+                        .toggleClass('fa-expand');
+
+                    if (toggle.find('i').hasClass('fa-compress')) {
+                        text.text(toggle.data('collapse'));
+                    } else {
+                        text.text(toggle.data('expand'));
+                    }
+
+                    toggle
+                        .closest('.dropdown')
+                        .find('.dropdown-toggle')
+                        .trigger('click');
+
+                    checkbox.prop('checked', false);
+
+                    collapsed[items.index(item)] = item.hasClass('collapsed');
+                }
+            });
 
             Cookies.set(cookie, JSON.stringify(collapsed), {path: window.location.pathname});
 
             return false;
         });
 
+        wrapper.on('click', '[data-delete="row"]', function () {
+
+            // Check this row.
+            $(this).closest('.block-item').find('input[type="checkbox"]:first').prop('checked', true);
+
+            // Hide the dropdown menu.
+            $(this).closest('.block-item').find('.dropdown:first .open').removeClass('open');
+
+            wrapper.find('.block-item').each(function () {
+
+                var item = $(this);
+                var checkbox = item.find('input[type="checkbox"]:first');
+
+                if (checkbox.prop('checked')) {
+                    item.remove();
+                }
+            });
+
+            return false;
+        });
+
+        wrapper.on('click', '[data-select="all"]', function () {
+
+            wrapper.find('.block-item').each(function () {
+
+                var item = $(this);
+                var checkbox = item.find('input[type="checkbox"]:first');
+
+                if (!checkbox.prop('checked')) {
+                    checkbox.prop('checked', true);
+                }
+            });
+
+            return false;
+        });
+
+        wrapper.on('click', '[data-add="above"]', function () {
+
+            wrapper.find('.block-item.target').removeClass('target');
+
+            $(this).closest('.block-item').addClass('target');
+
+            wrapper.find('> .block-controls > a[data-toggle="modal"]').trigger('click');
+
+            return false;
+        });
+
         wrapper.indexCollapsed = function () {
 
-            wrapper.find('.blocks-list').find('.blocks-item').each(function (index) {
+            wrapper.find('.block-list').find('.block-item').each(function (index) {
 
                 var item = $(this);
 
@@ -95,11 +171,11 @@ $(document).on('ajaxComplete ready', function () {
         };
 
         wrapper.sort = function () {
-            wrapper.find('.blocks-list').sortable({
-                handle: '.blocks-handle',
+            wrapper.find('.block-list').sortable({
+                handle: '.block-handle',
                 placeholder: '<div class="placeholder"></div>',
-                containerSelector: '.blocks-list',
-                itemSelector: '.blocks-item',
+                containerSelector: '.block-list',
+                itemSelector: '.block-item',
                 nested: false,
                 onDragStart: function ($item, container, _super, event) {
 
@@ -125,7 +201,7 @@ $(document).on('ajaxComplete ready', function () {
                 },
                 afterMove: function ($placeholder) {
 
-                    $placeholder.closest('.blocks-list').find('.dragged').detach().insertBefore($placeholder);
+                    $placeholder.closest('.block-list').find('.dragged').detach().insertBefore($placeholder);
 
                     wrapper.indexCollapsed();
                 },
@@ -153,18 +229,51 @@ $(document).on('ajaxComplete ready', function () {
 
             e.preventDefault();
 
-            var count = wrapper.find('.blocks-item').length + 1;
+            var count = wrapper.find('.block-item').length + 1;
 
             modal.trigger('loading');
 
-            $(wrapper)
-                .find('> .blocks-list')
-                .first()
-                .append($('<div class="blocks-item"><div class="blocks-loading">' + modal.data('loading') + '...</div></div>').load($(this).attr('href') + '&instance=' + count, function () {
-                    wrapper.sort();
-                    wrapper.indexCollapsed();
-                    modal.modal('hide');
-                }));
+            var $blockItem = $('<div class="block-item"><div class="block-loading">' + modal.data('loading') + '...</div></div>');
+
+            var target = $(wrapper).find('> .block-list > .block-item.target');
+
+            if (target.length) {
+                target.removeClass('target').before($blockItem);
+            } else {
+                $(wrapper).find('> .block-list').first().append($blockItem);
+            }
+
+            $.get($(this).attr('href') + '&instance=' + count, function (data) {
+
+                /**
+                 * This is a hack to get around a bug that exists in the editor field type.
+                 * If ace has already been loaded then search for a line containing ace.js and remove it.
+                 */
+                if (typeof(ace) === 'object') {
+                    var dataArray = data.split('\n');
+                    var removeIndex = -1;
+                    for (var i = 0; i < dataArray.length; i++) {
+                        if (dataArray[i].includes('ace.js')) {
+                            removeIndex = i;
+                        }
+                    }
+                    if (removeIndex > -1) {
+                        dataArray.splice(removeIndex, 1);
+                    }
+
+                    data = dataArray.join('\n');
+                }
+
+                $blockItem.html(data);
+
+                $('html, body').animate({
+                    scrollTop: $blockItem.offset().top - 140
+                }, 200);
+
+                wrapper.sort();
+                wrapper.indexCollapsed();
+                modal.modal('hide');
+            });
         });
     });
 });

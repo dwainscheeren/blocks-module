@@ -90,6 +90,7 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
         $model->bind(
             'blocks',
             function () {
+
                 /* @var EloquentModel $this */
                 return $this
                     ->morphMany(BlockModel::class, 'area', 'area_type');
@@ -99,8 +100,11 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
         $model->bind(
             'get_blocks',
             function () {
+
                 /* @var EloquentModel $this */
-                return $this->blocks->getResults();
+                return $this
+                    ->call('blocks')
+                    ->getResults();
             }
         );
     }

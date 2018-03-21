@@ -4,10 +4,11 @@ use Anomaly\BlocksFieldType\Block\BlocksModel;
 use Anomaly\BlocksFieldType\Command\GetMultiformFromPost;
 use Anomaly\BlocksFieldType\Command\GetMultiformFromValue;
 use Anomaly\BlocksFieldType\Validation\ValidateBlocks;
+use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\BlocksModule\Block\Form\BlockFormBuilder;
+use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Illuminate\Contracts\Container\Container;
@@ -51,15 +52,6 @@ class BlocksFieldType extends FieldType
      * @var string
      */
     protected $filterView = 'anomaly.field_type.blocks::filter';
-
-    /**
-     * The field type config.
-     *
-     * @var array
-     */
-    protected $config = [
-        'manage' => true,
-    ];
 
     /**
      * The field rules.
@@ -232,30 +224,46 @@ class BlocksFieldType extends FieldType
     /**
      * Return a form builder instance.
      *
-     * @param FieldInterface  $field
-     * @param StreamInterface $stream
-     * @param                 $block
-     * @param null            $instance
+     * @param FieldInterface $field
+     * @param BlockExtension $extension
+     * @param null           $instance
      * @return FormBuilder
      */
-    public function form(FieldInterface $field, StreamInterface $stream, $block, $instance = null)
+    public function form(FieldInterface $field, BlockExtension $extension, $instance = null)
     {
-        /* @var EntryInterface $model */
-        $model = $stream->getEntryModel();
 
-        /* @var FormBuilder $builder */
-        $builder = $model->newBlocksFieldTypeFormBuilder()
-            ->setModel($model)
-            ->setOption('block_type', $block)
-            ->setOption('blocks_instance', $instance)
-            ->setOption('blocks_field', $field->getId())
-            ->setOption('blocks_prefix', $this->getFieldName())
-            ->setOption('blocks_title', $block . '::addon.title')
+        /* @var BlockInstanceFormBuilder $form */
+        /* @var BlockFormBuilder $block */
+        $form  = app(BlockInstanceFormBuilder::class);
+        $block = app(BlockFormBuilder::class);
+
+        $block->setExtension($extension);
+
+        $form->on(
+            'saving_block',
+            function () use ($form, $block) {
+                $block->setFormEntryAttribute(
+                    'entry',
+                    $form->getChildFormEntry('entry')
+                );
+            }
+        );
+
+        $form->addForm('block', $block);
+
+        $extension->extend($form);
+
+        $form
+            ->setOption('block_extension', $extension)
+            ->setOption('block_instance', $instance)
+            ->setOption('block_field', $field->getId())
+            ->setOption('block_prefix', $this->getFieldName())
+            ->setOption('block_title', $extension->getNamespace('addon.title'))
             ->setOption('form_view', 'anomaly.field_type.blocks::form')
             ->setOption('wrapper_view', 'anomaly.field_type.blocks::wrapper')
             ->setOption('prefix', $this->getFieldName() . '_' . $instance . '_');
 
-        return $builder;
+        return $form;
     }
 
     /**

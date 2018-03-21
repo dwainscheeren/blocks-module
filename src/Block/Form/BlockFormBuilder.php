@@ -2,6 +2,7 @@
 
 use Anomaly\BlocksModule\Area\Contract\AreaInterface;
 use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -56,7 +57,7 @@ class BlockFormBuilder extends FormBuilder
     /**
      * Get the area.
      *
-     * @return AreaInterface|null
+     * @return EntryInterface|null
      */
     public function getArea()
     {
@@ -66,10 +67,10 @@ class BlockFormBuilder extends FormBuilder
     /**
      * Set the area.
      *
-     * @param AreaInterface $area
+     * @param EntryInterface $area
      * @return $this
      */
-    public function setArea(AreaInterface $area)
+    public function setArea(EntryInterface $area)
     {
         $this->area = $area;
 

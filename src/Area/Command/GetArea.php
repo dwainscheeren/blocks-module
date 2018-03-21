@@ -1,8 +1,9 @@
 <?php namespace Anomaly\BlocksModule\Area\Command;
 
-use Anomaly\BlocksModule\Area\AreaPresenter;
 use Anomaly\BlocksModule\Area\Contract\AreaInterface;
 use Anomaly\BlocksModule\Area\Contract\AreaRepositoryInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
@@ -48,11 +49,11 @@ class GetArea
             return $groups->findBySlug($this->identifier);
         }
 
-        if ($this->identifier instanceof AreaInterface) {
+        if ($this->identifier instanceof EntryInterface) {
             return $this->identifier;
         }
 
-        if ($this->identifier instanceof AreaPresenter) {
+        if ($this->identifier instanceof EntryPresenter) {
             return $this->identifier->getObject();
         }
 
