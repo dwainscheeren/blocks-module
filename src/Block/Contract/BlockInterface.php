@@ -1,15 +1,14 @@
 <?php namespace Anomaly\BlocksModule\Block\Contract;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\BlocksModule\Block\BlockExtension;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Interface BlockInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\BlocksModule\Block\Contract
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 interface BlockInterface
 {
@@ -20,7 +19,7 @@ interface BlockInterface
      * @return string
      */
     public function render();
-    
+
     /**
      * Get the slug.
      *
@@ -29,11 +28,18 @@ interface BlockInterface
     public function getSlug();
 
     /**
-     * Get the type.
+     * Get the extension.
      *
-     * @return Extension
+     * @return BlockExtension
      */
-    public function getType();
+    public function getExtension();
+
+    /**
+     * Return the loaded extension.
+     *
+     * @return BlockExtension
+     */
+    public function extension();
 
     /**
      * Get the related entry.

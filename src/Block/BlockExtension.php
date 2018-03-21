@@ -1,8 +1,10 @@
 <?php namespace Anomaly\BlocksModule\Block;
 
-use Anomaly\BlocksModule\Block\Command\GetBlockStream;
+use Anomaly\BlocksModule\Block\Command\AddBlockForm;
+use Anomaly\BlocksModule\Block\Command\AddConfigurationForm;
+use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
 /**
  * Class BlockExtension
@@ -15,12 +17,43 @@ class BlockExtension extends Extension
 {
 
     /**
-     * Get the block extension stream.
+     * The block instance.
      *
-     * @return StreamInterface
+     * @var null|BlockInterface
      */
-    public function getStream()
+    protected $block;
+
+    /**
+     * Extend the form builder.
+     *
+     * @param MultipleFormBuilder $builder
+     */
+    public function extend(MultipleFormBuilder $builder)
     {
-        return $this->dispatch(new GetBlockStream($this));
+        $this->dispatch(new AddBlockForm($builder, $this));
+        $this->dispatch(new AddConfigurationForm($builder, $this));
+    }
+
+    /**
+     * Get the block.
+     *
+     * @return null|BlockInterface
+     */
+    public function getBlock()
+    {
+        return $this->block;
+    }
+
+    /**
+     * Set the block.
+     *
+     * @param BlockInterface $block
+     * @return $this
+     */
+    public function setBlock(BlockInterface $block)
+    {
+        $this->block = $block;
+
+        return $this;
     }
 }

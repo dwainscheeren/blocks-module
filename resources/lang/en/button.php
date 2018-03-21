@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'new_group' => 'New Group',
+    'new_area'  => 'New Area',
+    'add_block' => 'Add Block',
 ];

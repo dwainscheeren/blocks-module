@@ -2,9 +2,9 @@
 
 return [
     'areas'  => [
-        'name' => 'Areas',
+        'title' => 'Areas',
     ],
     'blocks' => [
-        'name' => 'Blocks',
+        'title' => 'Blocks',
     ],
 ];

@@ -6,4 +6,14 @@ return [
         'write',
         'delete',
     ],
+    'areas' => [
+        'read',
+        'write',
+        'delete',
+    ],
+    'areas' => [
+        'read',
+        'write',
+        'delete',
+    ],
 ];

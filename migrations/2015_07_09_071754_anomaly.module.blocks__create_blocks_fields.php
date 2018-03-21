@@ -27,7 +27,15 @@ class AnomalyModuleBlocksCreateBlocksFields extends Migration
                 'slugify' => 'name',
             ],
         ],
-        'blocks' => 'anomaly.field_type.blocks',
+        'title'       => 'anomaly.field_type.text',
+        'area'        => 'anomaly.field_type.polymorphic',
+        'extension'   => [
+            'type'   => 'anomaly.field_type.addon',
+            'config' => [
+                'type'   => 'extensions',
+                'search' => 'anomaly.module.blocks::block.*',
+            ],
+        ],
     ];
 
 }

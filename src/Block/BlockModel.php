@@ -2,17 +2,15 @@
 
 use Anomaly\BlocksModule\Block\Command\RenderBlock;
 use Anomaly\BlocksModule\Block\Contract\BlockInterface;
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\Blocks\BlocksBlocksEntryModel;
 
 /**
  * Class BlockModel
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\BlocksModule\Block
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
 {
@@ -38,13 +36,25 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     }
 
     /**
-     * Get the type.
+     * Get the extension.
      *
-     * @return Extension
+     * @return BlockExtension
      */
-    public function getType()
+    public function getExtension()
     {
-        return $this->type;
+        return $this->extension;
+    }
+
+    /**
+     * Return the loaded extension.
+     *
+     * @return BlockExtension
+     */
+    public function extension()
+    {
+        return $this
+            ->getExtension()
+            ->setBlock($this);
     }
 
     /**

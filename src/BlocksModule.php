@@ -26,9 +26,24 @@ class BlocksModule extends Module
      * @var array
      */
     protected $sections = [
-        'groups' => [
+        'areas'  => [
             'buttons' => [
-                'new_group',
+                'new_area',
+            ],
+        ],
+        'blocks' => [
+            'slug'        => 'blocks',
+            'data-toggle' => 'modal',
+            'data-target' => '#modal',
+            'data-href'   => 'admin/blocks/{request.route.parameters.area}',
+            'href'        => 'admin/blocks/choose',
+
+            'buttons' => [
+                'add_block' => [
+                    'data-toggle' => 'modal',
+                    'data-target' => '#modal',
+                    'href'        => 'admin/blocks/{request.route.parameters.area}/choose',
+                ],
             ],
         ],
     ];

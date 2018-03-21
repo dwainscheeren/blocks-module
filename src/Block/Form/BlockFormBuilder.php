@@ -1,6 +1,7 @@
 <?php namespace Anomaly\BlocksModule\Block\Form;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\BlocksModule\Area\Contract\AreaInterface;
+use Anomaly\BlocksModule\Block\BlockExtension;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -15,11 +16,18 @@ class BlockFormBuilder extends FormBuilder
 {
 
     /**
-     * The block type.
+     * The area instance.
      *
-     * @var null|Extension
+     * @var null|AreaInterface
      */
-    protected $type = null;
+    protected $area = null;
+
+    /**
+     * The block extension.
+     *
+     * @var null|BlockExtension
+     */
+    protected $extension = null;
 
     /**
      * The form fields.
@@ -27,13 +35,7 @@ class BlockFormBuilder extends FormBuilder
      * @var array
      */
     protected $fields = [
-        'name',
         'title',
-        'slug' => [
-            'disabled' => 'edit',
-        ],
-        'description',
-        'group',
     ];
 
     /**
@@ -42,31 +44,55 @@ class BlockFormBuilder extends FormBuilder
      */
     public function onSaving()
     {
-        $type  = $this->getType();
-        $block = $this->getFormEntry();
+        $area      = $this->getArea();
+        $extension = $this->getExtension();
 
-        $block->type = $type->getNamespace();
+        $this->setFormEntryAttribute('area', $area);
+        $this->setFormEntryAttribute('extension', $extension);
     }
 
     /**
-     * Get the block type.
+     * Get the area.
      *
-     * @return Extension|null
+     * @return AreaInterface|null
      */
-    public function getType()
+    public function getArea()
     {
-        return $this->type;
+        return $this->area;
+    }
+
+    /**
+     * Set the area.
+     *
+     * @param AreaInterface $area
+     * @return $this
+     */
+    public function setArea(AreaInterface $area)
+    {
+        $this->area = $area;
+
+        return $this;
+    }
+
+    /**
+     * Get the block extension.
+     *
+     * @return BlockExtension|null
+     */
+    public function getExtension()
+    {
+        return $this->extension;
     }
 
     /**
      * Set the block type.
      *
-     * @param Extension $type
+     * @param BlockExtension $extension
      * @return $this
      */
-    public function setType(Extension $type)
+    public function setExtension(BlockExtension $extension)
     {
-        $this->type = $type;
+        $this->extension = $extension;
 
         return $this;
     }

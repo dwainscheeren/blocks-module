@@ -1,19 +1,28 @@
 <?php
 
 return [
+    'title'       => [
+        'name' => 'Title',
+    ],
     'name'        => [
         'name'         => 'Name',
-        'instructions' => 'Use a short easily identifiable name.',
+        'instructions' => 'Specify a short easily identifiable name.',
     ],
     'slug'        => [
         'name'         => 'Slug',
-        'instructions' => 'The slug will be used when accessing entries with the plugin.',
+        'instructions' => 'The slug will be used when display blocks with the plugin.',
     ],
     'description' => [
         'name'         => 'Description',
-        'instructions' => 'Briefly describe the entry and how it might be used.',
+        'instructions' => 'Briefly describe the area and how it will be used.',
     ],
-    'blocks'      => [
-        'name' => 'Blocks',
+    'area'        => [
+        'name' => 'Area',
+    ],
+    'block'       => [
+        'name' => 'Block',
+    ],
+    'extension'   => [
+        'name' => 'Extension',
     ],
 ];
