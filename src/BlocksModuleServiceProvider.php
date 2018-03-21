@@ -3,16 +3,14 @@
 use Anomaly\BlocksModule\Area\AreaModel;
 use Anomaly\BlocksModule\Area\AreaRepository;
 use Anomaly\BlocksModule\Area\Contract\AreaRepositoryInterface;
+use Anomaly\BlocksModule\Block\BlockModel;
 use Anomaly\BlocksModule\Block\BlockRepository;
 use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\AddonIntegrator;
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\Blocks\BlocksAreasEntryModel;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Class BlocksModuleServiceProvider
@@ -73,12 +71,12 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
      *
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
-     * @param EntryModel      $model
+     * @param EloquentModel   $model
      */
     public function register(
         AddonIntegrator $integrator,
         AddonCollection $addons,
-        EntryModel $model
+        EloquentModel $model
     ) {
         $addon = $integrator->register(
             realpath(__DIR__ . '/../addons/anomaly/blocks-field_type/'),
@@ -90,17 +88,19 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
         $addons->put($addon->getNamespace(), $addon);
 
         $model->bind(
-            'new_blocks_field_type_form_builder',
-            function (Container $container) {
+            'blocks',
+            function () {
+                /* @var EloquentModel $this */
+                return $this
+                    ->morphMany(BlockModel::class, 'area', 'area_type');
+            }
+        );
 
-                /* @var EntryInterface $this */
-                $builder = $this->getBoundModelNamespace() . '\\Support\\BlocksFieldType\\FormBuilder';
-
-                if (class_exists($builder)) {
-                    return $container->make($builder);
-                }
-
-                return $container->make(FormBuilder::class);
+        $model->bind(
+            'get_blocks',
+            function () {
+                /* @var EloquentModel $this */
+                return $this->discussions->getResults();
             }
         );
     }

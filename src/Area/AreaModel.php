@@ -1,7 +1,10 @@
 <?php namespace Anomaly\BlocksModule\Area;
 
 use Anomaly\BlocksModule\Area\Contract\AreaInterface;
+use Anomaly\BlocksModule\Block\BlockCollection;
+use Anomaly\BlocksModule\Block\BlockModel;
 use Anomaly\Streams\Platform\Model\Blocks\BlocksAreasEntryModel;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Class AreaModel
@@ -21,5 +24,26 @@ class AreaModel extends BlocksAreasEntryModel implements AreaInterface
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Get the related blocks.
+     *
+     * @return BlockCollection
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * Return the blocks relation.
+     *
+     * @return MorphMany
+     */
+    public function blocks()
+    {
+        return $this
+            ->morphMany(BlockModel::class, 'area', 'area_type');
     }
 }

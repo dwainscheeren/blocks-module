@@ -1,6 +1,8 @@
 <?php namespace Anomaly\BlocksModule\Area\Contract;
 
+use Anomaly\BlocksModule\Block\BlockCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Interface AreaInterface
@@ -18,5 +20,19 @@ interface AreaInterface extends EntryInterface
      * @return string
      */
     public function getDescription();
+
+    /**
+     * Get the related blocks.
+     *
+     * @return BlockCollection
+     */
+    public function getBlocks();
+
+    /**
+     * Return the blocks relation.
+     *
+     * @return MorphMany
+     */
+    public function blocks();
 
 }
