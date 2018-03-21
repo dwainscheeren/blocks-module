@@ -33,7 +33,7 @@ class AreaModel extends BlocksAreasEntryModel implements AreaInterface
      */
     public function getBlocks()
     {
-        return $this->blocks;
+        return $this->getAttribute('blocks');
     }
 
     /**

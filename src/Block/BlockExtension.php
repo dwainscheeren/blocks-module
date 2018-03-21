@@ -27,18 +27,18 @@ class BlockExtension extends Extension
     protected $block;
 
     /**
-     * The block view.
-     *
-     * @var null|string
-     */
-    protected $view = null;
-
-    /**
      * The block model.
      *
      * @var null|string
      */
     protected $model = null;
+
+    /**
+     * The block view.
+     *
+     * @var null|string
+     */
+    protected $view = 'anomaly.module.blocks::blocks/content';
 
     /**
      * The block wrapper.

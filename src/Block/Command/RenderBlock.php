@@ -47,7 +47,10 @@ class RenderBlock
 
         return $view->make(
             $extension->getWrapper(),
-            ['block' => $this->block]
+            [
+                'block'   => $this->block,
+                'content' => $this->block->getContent(),
+            ]
         )->render();
     }
 }

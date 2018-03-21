@@ -23,6 +23,8 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
      */
     public function render()
     {
+        $this->make();
+
         return $this->dispatch(new RenderBlock($this));
     }
 

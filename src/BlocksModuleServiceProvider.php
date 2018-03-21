@@ -100,7 +100,7 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
             'get_blocks',
             function () {
                 /* @var EloquentModel $this */
-                return $this->discussions->getResults();
+                return $this->blocks->getResults();
             }
         );
     }
