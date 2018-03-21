@@ -43,6 +43,14 @@ interface BlockInterface extends EntryInterface
     public function extension();
 
     /**
+     * Return a setting value.
+     *
+     * @param $key
+     * @return null|FieldTypePresenter
+     */
+    public function setting($key);
+
+    /**
      * Return a configuration value.
      *
      * @param $key

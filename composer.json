@@ -28,7 +28,8 @@
     },
     "require": {
         "anomaly/streams-platform": "^1.3",
-        "anomaly/configuration-module": "^2.1"
+        "anomaly/configuration-module": "^2.1",
+        "anomaly/settings-module": "^2.1"
     },
     "autoload": {
         "psr-4": {
