@@ -6,13 +6,13 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class RenderBlock
+ * Class MakeBlock
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class RenderBlock
+class MakeBlock
 {
 
     use DispatchesJobs;
@@ -25,7 +25,7 @@ class RenderBlock
     protected $block;
 
     /**
-     * Create a new RenderBlock instance.
+     * Create a new MakeBlock instance.
      *
      * @param BlockInterface $block
      */
@@ -38,16 +38,17 @@ class RenderBlock
      * Handle the command.
      *
      * @param Factory $view
-     * @return null|string
      */
     public function handle(Factory $view)
     {
         /* @var BlockExtension $extension */
         $extension = $this->block->extension();
 
-        return $view->make(
-            $extension->getWrapper(),
-            ['block' => $this->block]
-        )->render();
+        $this->block->setContent(
+            $view->make(
+                $extension->getView(),
+                ['block' => $this->block]
+            )->render()
+        );
     }
 }

@@ -45,6 +45,11 @@ class AreaTableBuilder extends TableBuilder
      */
     protected $buttons = [
         'edit',
+        'blocks' => [
+            'icon' => 'magic',
+            'type' => 'primary',
+            'href' => 'admin/blocks/{entry.slug}',
+        ],
     ];
 
     /**

@@ -39,6 +39,7 @@ class AnomalyModuleBlocksCreateBlocksStream extends Migration
         'extension' => [
             'required' => true,
         ],
+        'entry',
     ];
 
 }

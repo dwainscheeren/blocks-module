@@ -3,9 +3,10 @@
 use Anomaly\BlocksModule\Area\Command\GetArea;
 use Anomaly\BlocksModule\Area\Contract\AreaInterface;
 use Anomaly\BlocksModule\Block\BlockExtension;
+use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
-use Anomaly\BlocksModule\Block\Form\BlockAssemblyFormBuilder;
 use Anomaly\BlocksModule\Block\Form\BlockFormBuilder;
+use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\BlocksModule\Block\Table\BlockTableBuilder;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
@@ -45,13 +46,13 @@ class BlocksController extends AdminController
     /**
      * Create a new entry.
      *
-     * @param BlockAssemblyFormBuilder|BlockFormBuilder $form
+     * @param BlockInstanceFormBuilder|BlockFormBuilder $form
      * @param BlockFormBuilder                          $default
      * @param ExtensionCollection                       $extensions
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function create(
-        BlockAssemblyFormBuilder $form,
+        BlockInstanceFormBuilder $form,
         BlockFormBuilder $block,
         ExtensionCollection $extensions,
         $area
@@ -70,6 +71,16 @@ class BlocksController extends AdminController
         }
 
         $block->setArea($area);
+
+        $form->on(
+            'saving_block',
+            function () use ($form, $block) {
+                $block->setFormEntryAttribute(
+                    'entry',
+                    $form->getChildFormEntry('entry')
+                );
+            }
+        );
 
         $form->addForm('block', $block);
 
@@ -100,12 +111,34 @@ class BlocksController extends AdminController
     /**
      * Edit an existing entry.
      *
-     * @param BlockFormBuilder $form
-     * @param                  $id
+     * @param BlockInstanceFormBuilder|BlockFormBuilder $form
+     * @param BlockRepositoryInterface                  $blocks
+     * @param                                           $area
+     * @param                                           $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function edit(BlockFormBuilder $form, $id)
-    {
+    public function edit(
+        BlockInstanceFormBuilder $form,
+        BlockFormBuilder $block,
+        BlockRepositoryInterface $blocks,
+        $area,
+        $id
+    ) {
+
+        /* @var BlockInterface $entry */
+        if (!$entry = $blocks->find($id)) {
+            abort(404);
+        }
+
+        $block->setEntry($entry);
+
+        /* @var BlockExtension $extension */
+        $extension = $entry->extension();
+
+        $form->addForm('block', $block);
+
+        $extension->extend($form, $block);
+
         return $form->render($id);
     }
 }

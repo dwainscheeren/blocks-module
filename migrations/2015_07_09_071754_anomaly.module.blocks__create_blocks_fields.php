@@ -29,6 +29,7 @@ class AnomalyModuleBlocksCreateBlocksFields extends Migration
         ],
         'title'       => 'anomaly.field_type.text',
         'area'        => 'anomaly.field_type.polymorphic',
+        'entry'       => 'anomaly.field_type.polymorphic',
         'extension'   => [
             'type'   => 'anomaly.field_type.addon',
             'config' => [

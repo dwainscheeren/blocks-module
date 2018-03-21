@@ -3,13 +3,13 @@
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
 /**
- * Class BlockAssemblyFormBuilder
+ * Class BlockInstanceFormBuilder
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class BlockAssemblyFormBuilder extends MultipleFormBuilder
+class BlockInstanceFormBuilder extends MultipleFormBuilder
 {
 
     /**

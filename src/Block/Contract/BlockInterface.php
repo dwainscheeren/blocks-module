@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-interface BlockInterface
+interface BlockInterface extends EntryInterface
 {
 
     /**

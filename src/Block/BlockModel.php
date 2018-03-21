@@ -1,5 +1,6 @@
 <?php namespace Anomaly\BlocksModule\Block;
 
+use Anomaly\BlocksModule\Block\Command\MakeBlock;
 use Anomaly\BlocksModule\Block\Command\RenderBlock;
 use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -23,6 +24,18 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     public function render()
     {
         return $this->dispatch(new RenderBlock($this));
+    }
+
+    /**
+     * Make the block content.
+     *
+     * @return $this
+     */
+    public function make()
+    {
+        $this->dispatch(new MakeBlock($this));
+
+        return $this;
     }
 
     /**

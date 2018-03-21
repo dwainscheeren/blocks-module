@@ -1,6 +1,8 @@
-<div class="{{ str_slug(block.type.value.slug, '-') }}-type {{ block.slug }}-block">
+<div
+        id="{{ block.id }}"
+        class="{{ block.class }}">
 
-    {% if block.title %}
+    {% if block.title.value %}
         <h3>{{ block.title }}</h3>
     {% endif %}
 

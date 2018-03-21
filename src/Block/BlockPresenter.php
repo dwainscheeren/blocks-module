@@ -22,6 +22,30 @@ class BlockPresenter extends EntryPresenter
     protected $object;
 
     /**
+     * Get the ID attribute.
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        $extension = $this->object->getExtension();
+
+        return $extension->getSlug() . '-block-' . $this->object->getId();
+    }
+
+    /**
+     * Get the class attribute.
+     *
+     * @return string
+     */
+    public function getClass()
+    {
+        $extension = $this->object->getExtension();
+
+        return $extension->getSlug() . '-block';
+    }
+
+    /**
      * Catch calls to fields on
      * the page's related entry.
      *

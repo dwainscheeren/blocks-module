@@ -2,16 +2,16 @@
 
 use Anomaly\BlocksModule\Block\BlockExtension;
 use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
-use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class AddConfigurationForm
+ * Class AddStreamForm
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class AddConfigurationForm
+class AddStreamForm
 {
 
     /**
@@ -43,25 +43,17 @@ class AddConfigurationForm
     /**
      * Handle the command.
      *
-     * @param ConfigurationFormBuilder $configuration
+     * @param FormBuilder $form
      */
-    public function handle(ConfigurationFormBuilder $configuration)
+    public function handle(FormBuilder $form)
     {
-        $configuration->setEntry($this->extension->getNamespace());
-
-        if ($block = $this->builder->getChildEntry('block')) {
-            $configuration->setScope($block->getId());
+        if (!$stream = $this->extension->stream()) {
+            return;
         }
 
-        $this->builder->addForm('configuration', $configuration);
+        $form->setModel($this->extension->getModel());
+        $form->setEntry($this->extension->getBlockEntryId());
 
-        $this->builder->on(
-            'saved_block',
-            function () use ($configuration) {
-                $configuration->setScope(
-                    $this->builder->getChildFormEntryId('block')
-                );
-            }
-        );
+        $this->builder->addForm('entry', $form, 0);
     }
 }

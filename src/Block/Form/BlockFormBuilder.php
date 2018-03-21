@@ -44,11 +44,13 @@ class BlockFormBuilder extends FormBuilder
      */
     public function onSaving()
     {
-        $area      = $this->getArea();
-        $extension = $this->getExtension();
+        if ($area = $this->getArea()) {
+            $this->setFormEntryAttribute('area', $area);
+        }
 
-        $this->setFormEntryAttribute('area', $area);
-        $this->setFormEntryAttribute('extension', $extension);
+        if ($extension = $this->getExtension()) {
+            $this->setFormEntryAttribute('extension', $extension);
+        }
     }
 
     /**
