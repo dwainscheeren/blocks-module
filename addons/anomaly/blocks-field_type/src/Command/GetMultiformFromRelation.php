@@ -86,7 +86,8 @@ class GetMultiformFromRelation
 
             $form
                 ->setReadOnly($this->fieldType->isReadOnly())
-                ->setOption('block_id', $entry->getId());
+                ->setOption('block_id', $entry->getId())
+                ->setOption('block_subtitle', $entry->getTitle());
 
             $forms->addForm($this->fieldType->getFieldName() . '_' . $instance, $form);
         }

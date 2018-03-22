@@ -128,6 +128,16 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     }
 
     /**
+     * Get the title.
+     *
+     * @return null|string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
      * Get the related entry.
      *
      * @return null|EntryInterface

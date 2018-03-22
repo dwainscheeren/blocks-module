@@ -52,6 +52,13 @@ interface BlockInterface extends EntryInterface
     public function configuration($key);
 
     /**
+     * Get the title.
+     *
+     * @return null|string
+     */
+    public function getTitle();
+
+    /**
      * Get the related entry.
      *
      * @return null|EntryInterface
