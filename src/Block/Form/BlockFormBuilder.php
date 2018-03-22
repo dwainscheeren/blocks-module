@@ -57,7 +57,7 @@ class BlockFormBuilder extends FormBuilder
     /**
      * Get the area.
      *
-     * @return EntryInterface|null
+     * @return EntryInterface|AreaInterface|null
      */
     public function getArea()
     {

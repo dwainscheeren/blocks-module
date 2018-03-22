@@ -72,6 +72,9 @@ class BlocksController extends AdminController
 
         $block->setArea($area);
 
+        $form->setOption('title', $area->getTitle());
+        $form->setOption('description', $area->getDescription());
+
         $form->on(
             'saving_block',
             function () use ($form, $block) {
@@ -99,7 +102,7 @@ class BlocksController extends AdminController
      */
     public function choose(ExtensionCollection $extensions)
     {
-        return view(
+        return $this->view->make(
             'anomaly.module.blocks::admin/blocks/choose',
             [
                 'extensions' => $extensions
@@ -133,6 +136,11 @@ class BlocksController extends AdminController
         }
 
         $block->setEntry($entry);
+
+        $area = $block->getArea();
+
+        $form->setOption('title', $area->getTitle());
+        $form->setOption('description', $area->getDescription());
 
         /* @var BlockExtension $extension */
         $extension = $entry->extension();
