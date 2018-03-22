@@ -8,7 +8,7 @@
         "module"
     ],
     "homepage": "http://pyrocms.com/",
-    "license": "https://pyrocms.com/pro/license",
+    "license": "MIT",
     "authors": [
         {
             "name": "PyroCMS, Inc.",
