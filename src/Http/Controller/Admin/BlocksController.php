@@ -75,10 +75,12 @@ class BlocksController extends AdminController
         $form->on(
             'saving_block',
             function () use ($form, $block) {
-                $block->setFormEntryAttribute(
-                    'entry',
-                    $form->getChildFormEntry('entry')
-                );
+                if ($entry = $form->getChildFormEntry('entry')) {
+                    $block->setFormEntryAttribute(
+                        'entry',
+                        $entry
+                    );
+                }
             }
         );
 

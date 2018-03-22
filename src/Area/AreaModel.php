@@ -17,6 +17,15 @@ class AreaModel extends BlocksAreasEntryModel implements AreaInterface
 {
 
     /**
+     * The cascading relations.
+     *
+     * @var array
+     */
+    protected $cascades = [
+        'blocks',
+    ];
+
+    /**
      * Get the description.
      *
      * @return string
