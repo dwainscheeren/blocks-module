@@ -20,6 +20,15 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
 {
 
     /**
+     * The eager loaded relations.
+     *
+     * @var array
+     */
+    protected $with = [
+        'entry',
+    ];
+
+    /**
      * The settings repository.
      *
      * @var SettingRepositoryInterface
