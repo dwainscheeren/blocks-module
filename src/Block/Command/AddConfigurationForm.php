@@ -3,6 +3,7 @@
 use Anomaly\BlocksModule\Block\BlockExtension;
 use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class AddConfigurationForm
@@ -44,9 +45,14 @@ class AddConfigurationForm
      * Handle the command.
      *
      * @param ConfigurationFormBuilder $configuration
+     * @param Repository               $config
      */
-    public function handle(ConfigurationFormBuilder $configuration)
+    public function handle(ConfigurationFormBuilder $configuration, Repository $config)
     {
+        if (!$config->has($this->extension->getNamespace('configuration'))) {
+            return;
+        }
+
         $configuration->setEntry($this->extension->getNamespace());
 
         if ($block = $this->builder->getChildEntry('block')) {

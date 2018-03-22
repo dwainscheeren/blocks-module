@@ -1,7 +1,7 @@
 {
     "name": "anomaly/blocks-module",
     "type": "streams-addon",
-    "description": "Manage small sections of self-contained blocks of logic.",
+    "description": "Manage sections of content.",
     "keywords": [
         "streams module",
         "streams addon",
