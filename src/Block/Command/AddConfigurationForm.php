@@ -49,7 +49,7 @@ class AddConfigurationForm
      */
     public function handle(ConfigurationFormBuilder $configuration, Repository $config)
     {
-        if (!$config->has($this->extension->getNamespace('configuration'))) {
+        if (!$config->get($this->extension->getNamespace('configuration'))) {
             return;
         }
 
