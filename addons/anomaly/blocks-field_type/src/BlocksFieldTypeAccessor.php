@@ -44,18 +44,21 @@ class BlocksFieldTypeAccessor extends FieldTypeAccessor
             $value = $this->organizeSyncValue([$value->getId()]);
         }
 
-        $this->fieldType->getRelation()->getBaseQuery()->where(
-            'related_id',
-            $this->fieldType->getEntry()->getId()
-        )->delete();
+        $this->fieldType
+            ->getRelation()
+            ->getBaseQuery()
+            ->delete();
 
         if (!$value) {
             return;
         }
 
-        array_walk($value, function($insert) {
-            $this->fieldType->getRelatedModel()->newQuery()->insert($insert);
-        });
+        array_walk(
+            $value,
+            function ($insert) {
+                $this->fieldType->getRelatedModel()->newQuery()->insert($insert);
+            }
+        );
     }
 
     /**
