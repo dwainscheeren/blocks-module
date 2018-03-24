@@ -137,7 +137,8 @@ class BlocksController extends AdminController
 
         $block->setEntry($entry);
 
-        $area = $block->getArea();
+        /* @var AreaInterface $area */
+        $area = $entry->getArea();
 
         $form->setOption('title', $area->getTitle());
         $form->setOption('description', $area->getDescription());
