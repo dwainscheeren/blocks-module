@@ -2,12 +2,10 @@
 
 use Anomaly\BlocksFieldType\BlocksFieldType;
 use Anomaly\BlocksModule\Block\BlockExtension;
-use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Http\Controller\PublicController;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class BlocksController
@@ -65,7 +63,7 @@ class BlocksController extends PublicController
      * Return a form row.
      *
      * @param FieldRepositoryInterface $fields
-     * @param ExtensionCollection      $extensions
+     * @param ExtensionCollection $extensions
      * @param                          $field
      * @param                          $extension
      * @return \Symfony\Component\HttpFoundation\Response

@@ -144,7 +144,7 @@ class BlockExtension extends Extension
      */
     public function getView()
     {
-        return $this->view ?: $this->getNamespace('block');
+        return $this->view;
     }
 
     /**
