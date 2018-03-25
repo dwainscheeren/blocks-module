@@ -32,19 +32,18 @@ class BlocksController extends PublicController
         /* @var BlocksFieldType $type */
         $type = $field->getType();
 
-        $allowed = $type->config('allowed', []);
+        $allowed = $type->config('blocks', []);
 
-        //if (!$allowed) {
-        $allowed = array_map(
-            function (BlockExtension $extension) {
-                return $extension->getNamespace();
-            },
-            $extensions->search('anomaly.module.blocks::block.*')
-                ->enabled()
-                ->all()
-        );
-
-        //}
+        if (!$allowed) {
+            $allowed = array_map(
+                function (BlockExtension $extension) {
+                    return $extension->getNamespace();
+                },
+                $extensions->search('anomaly.module.blocks::block.*')
+                    ->enabled()
+                    ->all()
+            );
+        }
 
         return $this->view->make(
             'anomaly.field_type.blocks::choose',

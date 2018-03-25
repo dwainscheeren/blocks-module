@@ -1,13 +1,21 @@
 <?php
 
+use Anomaly\BlocksFieldType\Support\Config\BlocksHandler;
+
 return [
-    'min'     => [
+    'blocks' => [
+        'type'   => 'anomaly.field_type.checkboxes',
+        'config' => [
+            'handler' => BlocksHandler::class,
+        ],
+    ],
+    'min'    => [
         'type'   => 'anomaly.field_type.integer',
         'config' => [
             'min' => 1,
         ],
     ],
-    'max'     => [
+    'max'    => [
         'type'   => 'anomaly.field_type.integer',
         'config' => [
             'min' => 1,
