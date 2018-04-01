@@ -30,7 +30,7 @@ class BlockPresenter extends EntryPresenter
      */
     public function __get($key)
     {
-        if ($this->object->hasField($key)) {
+        if (in_array($key, ['id']) || $this->object->hasField($key)) {
             return parent::__get($key);
         }
 
