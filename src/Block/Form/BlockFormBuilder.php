@@ -3,6 +3,7 @@
 use Anomaly\BlocksModule\Area\Contract\AreaInterface;
 use Anomaly\BlocksModule\Block\BlockExtension;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -22,6 +23,13 @@ class BlockFormBuilder extends FormBuilder
      * @var null|AreaInterface
      */
     protected $area = null;
+
+    /**
+     * The block field.
+     *
+     * @var null|FieldInterface $field
+     */
+    protected $field = null;
 
     /**
      * The block extension.
@@ -49,6 +57,10 @@ class BlockFormBuilder extends FormBuilder
             $this->setFormEntryAttribute('area', $area);
         }
 
+        if ($field = $this->getField()) {
+            $this->setFormEntryAttribute('field', $field);
+        }
+
         if ($extension = $this->getExtension()) {
             $this->setFormEntryAttribute('extension', $extension);
         }
@@ -73,6 +85,29 @@ class BlockFormBuilder extends FormBuilder
     public function setArea(EntryInterface $area)
     {
         $this->area = $area;
+
+        return $this;
+    }
+
+    /**
+     * Get the field.
+     *
+     * @return FieldInterface|null
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * Set the field.
+     *
+     * @param FieldInterface $field
+     * @return $this
+     */
+    public function setField(FieldInterface $field)
+    {
+        $this->field = $field;
 
         return $this;
     }

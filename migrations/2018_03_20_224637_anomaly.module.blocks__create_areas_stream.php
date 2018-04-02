@@ -43,6 +43,7 @@ class AnomalyModuleBlocksCreateAreasStream extends Migration
         'description' => [
             'translatable' => true,
         ],
+        'blocks',
     ];
 
 }

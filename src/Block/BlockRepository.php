@@ -4,6 +4,7 @@ use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
  * Class BlockRepository
@@ -48,13 +49,15 @@ class BlockRepository extends EntryRepository implements BlockRepositoryInterfac
      * Sync an area's blocks.
      *
      * @param EntryInterface $area
+     * @param FieldInterface $field
      * @param array          $ids
      */
-    public function sync(EntryInterface $area, array $ids)
+    public function sync(EntryInterface $area, FieldInterface $field, array $ids)
     {
         $this->model
             ->where('area_type', get_class($area))
             ->where('area_id', $area->getId())
+            ->where('field_id', $field->getId())
             ->whereNotIn('id', $ids)
             ->delete();
     }

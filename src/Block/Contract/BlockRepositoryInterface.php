@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
  * Interface BlockRepositoryInterface
@@ -26,8 +27,10 @@ interface BlockRepositoryInterface extends EntryRepositoryInterface
      * Sync an area's blocks.
      *
      * @param EntryInterface $area
+     * @param FieldInterface $field
      * @param array          $ids
+     * @return
      */
-    public function sync(EntryInterface $area, array $ids);
+    public function sync(EntryInterface $area, FieldInterface $field, array $ids);
 
 }

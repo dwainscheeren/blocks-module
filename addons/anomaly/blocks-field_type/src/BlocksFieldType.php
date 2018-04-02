@@ -9,6 +9,7 @@ use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\BlocksModule\Block\Form\BlockFormBuilder;
 use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
@@ -110,8 +111,11 @@ class BlocksFieldType extends FieldType
     public function getRelation()
     {
         $entry = $this->getEntry();
+        $field = $entry->getField($this->getField());
 
-        return $entry->morphMany(BlockModel::class, 'area', 'area_type');
+        return $entry
+            ->morphMany(BlockModel::class, 'area', 'area_type')
+            ->where('field_id', $field->getId());
     }
 
     /**
@@ -269,13 +273,20 @@ class BlocksFieldType extends FieldType
             return;
         }
 
+        /* @var EntryInterface $entry */
+        $entry = $this->getEntry();
+
+        /* @var FieldInterface $field */
+        $field = $entry->getField($this->getField());
+
         /* @var BlockInstanceFormBuilder $form */
         foreach ($forms->getForms()->values() as $key => $form) {
 
             /* @var BlockFormBuilder $block */
             $block = $form->getChildForm('block');
 
-            $block->setArea($this->getEntry());
+            $block->setArea($entry);
+            $block->setField($field);
 
             $block->on(
                 'saving',
@@ -292,7 +303,8 @@ class BlocksFieldType extends FieldType
         $forms->handle();
 
         $blocks->sync(
-            $this->getEntry(),
+            $entry,
+            $field,
             $forms->getForms()->map(
                 function (BlockInstanceFormBuilder $form) {
                     return $form->getChildFormEntryId('block');
