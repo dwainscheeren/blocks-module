@@ -28,8 +28,16 @@ class AnomalyModuleBlocksCreateBlocksFields extends Migration
             ],
         ],
         'title'       => 'anomaly.field_type.text',
+        'field'       => [
+            'type'   => 'anomaly.field_type.relationship',
+            'config' => [
+                'mode'    => 'lookup',
+                'related' => 'Anomaly\Streams\Platform\Field\FieldModel',
+            ],
+        ],
         'area'        => 'anomaly.field_type.polymorphic',
         'entry'       => 'anomaly.field_type.polymorphic',
+        'blocks'      => 'anomaly.field_type.blocks',
         'extension'   => [
             'type'   => 'anomaly.field_type.addon',
             'config' => [

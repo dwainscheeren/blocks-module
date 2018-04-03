@@ -9,6 +9,7 @@ use Anomaly\BlocksModule\Block\Form\BlockFormBuilder;
 use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\BlocksModule\Block\Table\BlockTableBuilder;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 
 /**
@@ -70,7 +71,10 @@ class BlocksController extends AdminController
             abort(404);
         }
 
+        $field = $area->getField('blocks');
+
         $block->setArea($area);
+        $block->setField($field);
 
         $form->setOption('title', $area->getTitle());
         $form->setOption('description', $area->getDescription());

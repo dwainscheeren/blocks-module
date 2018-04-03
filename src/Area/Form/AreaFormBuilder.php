@@ -24,7 +24,9 @@ class AreaFormBuilder extends FormBuilder
      *
      * @var array|string
      */
-    protected $skips = [];
+    protected $skips = [
+        'blocks',
+    ];
 
     /**
      * The form actions.

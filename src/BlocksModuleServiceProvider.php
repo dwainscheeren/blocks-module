@@ -9,8 +9,9 @@ use Anomaly\BlocksModule\Block\Contract\BlockRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\AddonIntegrator;
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\Blocks\BlocksAreasEntryModel;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Class BlocksModuleServiceProvider
@@ -71,12 +72,12 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
      *
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
-     * @param EloquentModel   $model
+     * @param EntryModel      $model
      */
     public function register(
         AddonIntegrator $integrator,
         AddonCollection $addons,
-        EloquentModel $model
+        EntryModel $model
     ) {
         $addon = $integrator->register(
             realpath(__DIR__ . '/../addons/anomaly/blocks-field_type/'),
@@ -89,21 +90,24 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
 
         $model->bind(
             'blocks',
-            function () {
+            function ($field = 'blocks') {
 
-                /* @var EloquentModel $this */
+                /* @var EntryInterface $this */
+                $field = $this->getField($field);
+
                 return $this
-                    ->morphMany(BlockModel::class, 'area', 'area_type');
+                    ->morphMany(BlockModel::class, 'area', 'area_type')
+                    ->where('field_id', $field->getId());
             }
         );
 
         $model->bind(
             'get_blocks',
-            function () {
+            function ($field = 'blocks') {
 
-                /* @var EloquentModel $this */
+                /* @var EntryInterface $this */
                 return $this
-                    ->call('blocks')
+                    ->call('blocks', compact('field'))
                     ->getResults();
             }
         );
