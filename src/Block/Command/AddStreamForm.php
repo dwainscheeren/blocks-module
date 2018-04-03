@@ -3,6 +3,7 @@
 use Anomaly\BlocksModule\Block\BlockExtension;
 use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class AddStreamForm
@@ -43,13 +44,16 @@ class AddStreamForm
     /**
      * Handle the command.
      *
-     * @param FormBuilder $form
+     * @param Container $container
      */
-    public function handle(FormBuilder $form)
+    public function handle(Container $container)
     {
         if (!$stream = $this->extension->stream()) {
             return;
         }
+
+        /* @var FormBuilder $form */
+        $form = $container->make($this->extension->getForm());
 
         $form->setModel($this->extension->getModel());
         $form->setEntry($this->extension->getBlockEntryId());

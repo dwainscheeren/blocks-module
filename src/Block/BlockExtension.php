@@ -8,6 +8,7 @@ use Anomaly\BlocksModule\Block\Form\BlockInstanceFormBuilder;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class BlockExtension
@@ -32,6 +33,13 @@ class BlockExtension extends Extension
      * @var null|string
      */
     protected $model = null;
+
+    /**
+     * The block form builder.
+     *
+     * @var string
+     */
+    protected $form = FormBuilder::class;
 
     /**
      * The block view.
@@ -133,6 +141,29 @@ class BlockExtension extends Extension
     public function setModel($model)
     {
         $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get the form.
+     *
+     * @return null|string
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    /**
+     * Set the form.
+     *
+     * @param $form
+     * @return $this
+     */
+    public function setForm($form)
+    {
+        $this->form = $form;
 
         return $this;
     }
