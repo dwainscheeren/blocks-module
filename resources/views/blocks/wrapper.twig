@@ -1,14 +1,12 @@
-<div
-        id="block--{{ block.id }}"
-        class="block block--{{ block.extension.value.slug }}">
+<div id="block--{{ block.id }}" class="block block--{{ block.extension.value.slug }}">
 
     {% if block.title.value %}
-        <h3 class="block__title block__title--{{ block.extension.value.slug }}">
+        <h3 class="block__title">
             {{ block.title }}
         </h3>
     {% endif %}
 
-    <div class="block__content block__content--{{ block.extension.value.slug }}">
+    <div class="block__content">
         {{ content|raw }}
     </div>
 
