@@ -45,6 +45,7 @@ class BlockFormBuilder extends FormBuilder
      */
     protected $fields = [
         'title',
+        'display_title',
     ];
 
     /**

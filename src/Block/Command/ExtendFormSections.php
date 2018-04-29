@@ -60,7 +60,7 @@ class ExtendFormSections
                 'built',
                 function () {
 
-                    $fields = ['block_title'];
+                    $fields = ['block_title', 'block_display_title'];
 
                     /* @var FormBuilder $builder */
                     foreach ($this->builder->getForms() as $key => $builder) {
