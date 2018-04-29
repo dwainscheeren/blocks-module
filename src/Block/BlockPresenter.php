@@ -34,6 +34,10 @@ class BlockPresenter extends EntryPresenter
             return parent::__get($key);
         }
 
+        if ($this->object->hasData($key)) {
+            return $this->object->getData()[$key];
+        }
+
         $entry = $this->object->getEntry();
 
         if ($entry && $entry->hasField($key)) {

@@ -44,6 +44,13 @@ class MakeBlock
         /* @var BlockExtension $extension */
         $extension = $this->block->extension();
 
+        $extension->fire(
+            'load',
+            [
+                'block' => $this->block,
+            ]
+        );
+
         $this->block->setContent(
             $view->make(
                 $extension->getView(),

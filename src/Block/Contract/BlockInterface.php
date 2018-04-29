@@ -93,4 +93,36 @@ interface BlockInterface extends EntryInterface
      * @return $this
      */
     public function setContent($content);
+
+    /**
+     * Get the data.
+     *
+     * @return array
+     */
+    public function getData();
+
+    /**
+     * Set the data.
+     *
+     * @param array $data
+     * @return $this
+     */
+    public function setData(array $data);
+
+    /**
+     * Add some data.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function addData($key, $value);
+
+    /**
+     * Return if the block has data by key.
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasData($key);
 }

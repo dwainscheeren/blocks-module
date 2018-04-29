@@ -29,6 +29,13 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     ];
 
     /**
+     * The block data.
+     *
+     * @var array
+     */
+    protected $data = [];
+
+    /**
      * The settings repository.
      *
      * @var SettingRepositoryInterface
@@ -190,4 +197,53 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
 
         return $this;
     }
+
+    /**
+     * Get the data.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Set the data.
+     *
+     * @param array $data
+     * @return $this
+     */
+    public function setData(array $data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Return if the block has data by key.
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasData($key)
+    {
+        return array_key_exists($key, $this->data);
+    }
+
+    /**
+     * Add some data.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function addData($key, $value)
+    {
+        $this->data[$key] = $value;
+
+        return $this;
+    }
+
 }
