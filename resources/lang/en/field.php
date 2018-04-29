@@ -26,7 +26,7 @@ return [
         'name' => 'Extension',
     ],
     'display_title' => [
-        'name'  => 'Display the title?',
+        'name'  => 'Display title?',
         'label' => 'Yes, display the block title.',
     ],
 ];
