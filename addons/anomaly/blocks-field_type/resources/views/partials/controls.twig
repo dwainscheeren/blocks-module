@@ -5,10 +5,10 @@
         </li>
         <li class="list-inline-item">
             {% if form.options.block_subtitle %}
-                {{ str_singular(trans(form.options.block_title)) }}:
+                {{ trans(form.options.block_title) }}:
                 <span class="subtitle">{{ form.options.block_subtitle }}</span>
             {% else %}
-                {{ str_singular(trans(form.options.block_title)) }}
+                {{ trans(form.options.block_title) }}
             {% endif %}
         </li>
     </ul>
