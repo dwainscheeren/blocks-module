@@ -50,17 +50,6 @@ class ExtendFormSections
     {
         $sections = $config->get($this->extension->getNamespace('sections'));
 
-        $this->builder->setSections(
-            [
-                'block' => [
-                    'fields' => [
-                        'block_title',
-                        'block_display_title',
-                    ],
-                ],
-            ]
-        );
-
         if (!$sections) {
 
             $last = $this->builder
@@ -71,15 +60,10 @@ class ExtendFormSections
                 'built',
                 function () {
 
-                    $fields = [];
+                    $fields = ['block_title', 'block_display_title'];
 
                     /* @var FormBuilder $builder */
                     foreach ($this->builder->getForms() as $key => $builder) {
-
-                        if ($key == 'block') {
-                            continue;
-                        }
-
                         $fields = array_unique(
                             array_merge(
                                 $fields,
@@ -88,10 +72,11 @@ class ExtendFormSections
                         );
                     }
 
-                    $this->builder->addSection(
-                        'default',
+                    $this->builder->setSections(
                         [
-                            'fields' => $fields,
+                            'default' => [
+                                'fields' => $fields,
+                            ],
                         ]
                     );
 
@@ -101,6 +86,17 @@ class ExtendFormSections
 
             return;
         }
+
+        $this->builder->setSections(
+            [
+                'block' => [
+                    'fields' => [
+                        'block_title',
+                        'block_display_title',
+                    ],
+                ],
+            ]
+        );
 
         $this->builder->mergeSections($sections);
 
