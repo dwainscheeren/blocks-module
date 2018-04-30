@@ -111,14 +111,19 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     /**
      * Return a setting value.
      *
-     * @param $key
-     * @return null|FieldTypePresenter
+     * @param      $key
+     * @param null $default
+     * @return FieldTypePresenter|null
      */
-    public function setting($key)
+    public function setting($key, $default = null)
     {
         $extension = $this->getExtension();
 
-        return $this->settings->presenter($extension->getNamespace($key), $this->getId());
+        if ($default !== null) {
+            return $this->settings->value($extension->getNamespace($key), $default);
+        }
+
+        return $this->settings->presenter($extension->getNamespace($key));
     }
 
     /**
@@ -132,7 +137,11 @@ class BlockModel extends BlocksBlocksEntryModel implements BlockInterface
     {
         $extension = $this->getExtension();
 
-        return $this->configuration->presenter($extension->getNamespace($key), $this->getId()) ?: $default;
+        if ($default !== null) {
+            return $this->configuration->value($extension->getNamespace($key), $this->getId(), $default);
+        }
+
+        return $this->configuration->presenter($extension->getNamespace($key), $this->getId());
     }
 
     /**
