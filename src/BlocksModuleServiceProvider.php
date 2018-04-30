@@ -75,19 +75,8 @@ class BlocksModuleServiceProvider extends AddonServiceProvider
      * @param EntryModel      $model
      */
     public function register(
-        AddonIntegrator $integrator,
-        AddonCollection $addons,
         EntryModel $model
     ) {
-        $addon = $integrator->register(
-            realpath(__DIR__ . '/../addons/anomaly/blocks-field_type/'),
-            'anomaly.field_type.blocks',
-            true,
-            true
-        );
-
-        $addons->put($addon->getNamespace(), $addon);
-
         $model->bind(
             'blocks',
             function ($field = 'blocks') {

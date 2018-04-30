@@ -1,5 +1,6 @@
 <?php namespace Anomaly\BlocksModule;
 
+use Anomaly\BlocksFieldType\BlocksFieldType;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 
 /**
@@ -12,6 +13,15 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  */
 class BlocksModule extends Module
 {
+
+    /**
+     * The sub-addons.
+     *
+     * @var array
+     */
+    protected $addons = [
+        BlocksFieldType::class,
+    ];
 
     /**
      * The module addon.

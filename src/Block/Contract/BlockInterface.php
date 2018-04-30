@@ -38,18 +38,20 @@ interface BlockInterface extends EntryInterface
     /**
      * Return a setting value.
      *
-     * @param $key
-     * @return null|FieldTypePresenter
+     * @param      $key
+     * @param null $default
+     * @return FieldTypePresenter|null
      */
-    public function setting($key);
+    public function setting($key, $default = null);
 
     /**
      * Return a configuration value.
      *
-     * @param $key
-     * @return null|FieldTypePresenter
+     * @param      $key
+     * @param null $default
+     * @return FieldTypePresenter|null
      */
-    public function configuration($key);
+    public function configuration($key, $default = null);
 
     /**
      * Get the title.
