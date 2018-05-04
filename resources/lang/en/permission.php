@@ -1,13 +1,7 @@
 <?php
 
 return [
-    'groups' => [
-        'title'  => 'Groups',
-        'read'   => 'Can read groups?',
-        'write'  => 'Can create and edit groups?',
-        'delete' => 'Can delete groups?',
-    ],
-    'areas' => [
+    'areas'  => [
         'name'   => 'Areas',
         'option' => [
             'read'   => 'Can read areas?',
@@ -15,12 +9,12 @@ return [
             'delete' => 'Can delete areas?',
         ],
     ],
-    'areas' => [
-        'name'   => 'Areas',
+    'blocks' => [
+        'name'   => 'Blocks',
         'option' => [
-            'read'   => 'Can read areas?',
-            'write'  => 'Can create/edit areas?',
-            'delete' => 'Can delete areas?',
+            'read'   => 'Can read blocks?',
+            'write'  => 'Can create/edit blocks?',
+            'delete' => 'Can delete blocks?',
         ],
     ],
 ];
