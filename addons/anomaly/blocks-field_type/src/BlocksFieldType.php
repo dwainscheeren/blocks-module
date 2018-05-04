@@ -201,7 +201,9 @@ class BlocksFieldType extends FieldType
             $this->getFieldName() . '_' . $instance . '_'
         );
 
-        $block->setExtension($extension);
+        $block
+            ->setExtension($extension)
+            ->setOption('success_message', false);
 
         $form->on(
             'saving_block',
@@ -220,6 +222,7 @@ class BlocksFieldType extends FieldType
         $extension->extend($form);
 
         $form
+            ->setOption('success_message', false)
             ->setOption('block_instance', $instance)
             ->setOption('block_field', $field->getId())
             ->setOption('block_prefix', $this->getFieldName())
